@@ -1,0 +1,194 @@
+.teacher-dashboard {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Sidebar */
+.td-sidebar {
+    width: 250px;
+    background-color: var(--bg-card);
+    border-right: 2px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 1.5rem;
+}
+
+.td-logo h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 4rem;
+}
+
+.td-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.td-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.td-nav-item .td-nav-icon {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--text-primary);
+    /* Circle/Square outline from wireframe */
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.td-nav-item.active .td-nav-icon {
+    /* Style for active item if needed */
+}
+
+/* Main Content */
+.td-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.td-header {
+    height: 80px;
+    padding: 0 3rem;
+    display: flex;
+    justify-content: flex-end;
+    /* Right align as per wireframe */
+    align-items: center;
+}
+
+.td-header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.switch-student-btn {
+    padding: 0.5rem 1.5rem;
+    border: 2px solid var(--text-primary);
+    border-radius: 8px;
+    background: transparent;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.notification-label {
+    display: block;
+    font-size: 0.7rem;
+    text-align: center;
+}
+
+.user-avatar-circle {
+    width: 45px;
+    height: 45px;
+    border: 2px solid var(--text-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.td-content {
+    padding: 2rem 4rem;
+    flex: 1;
+}
+
+.create-course-banner {
+    border: 2px solid var(--border-color);
+    border-radius: 20px;
+    padding: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.cc-text h3 {
+    font-size: 1.5rem;
+    line-height: 1.4;
+}
+
+.create-course-btn {
+    padding: 0.8rem 2rem;
+    border: 2px solid var(--text-primary);
+    border-radius: 8px;
+    background: transparent;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--text-primary);
+}
+
+.create-course-btn:hover {
+    background-color: var(--text-primary);
+    color: var(--bg-card);
+}
+
+.course-controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.td-search input {
+    padding: 0.8rem 1.5rem;
+    border: 2px solid var(--text-primary);
+    border-radius: 999px;
+    width: 300px;
+    background: transparent;
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.filter-icon-btn {
+    width: 50px;
+    height: 50px;
+    border: 2px solid var(--text-primary);
+    border-radius: 12px;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-primary);
+}
+
+.td-course-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding-bottom: 4rem;
+}
+
+.td-course-card {
+    aspect-ratio: 16/10;
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+}
+
+.td-footer {
+    text-align: center;
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}

@@ -1,0 +1,129 @@
+.register-container {
+    min-height: calc(100vh - 200px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.register-card {
+    width: 100%;
+    max-width: 500px;
+    border: 2px solid var(--text-primary);
+    border-radius: 20px;
+    padding: 3rem 2.5rem;
+    background-color: var(--bg-card);
+}
+
+.register-card h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 2px solid var(--text-primary);
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--text-secondary);
+}
+
+.form-group select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 20px;
+    padding-right: 3rem;
+}
+
+.signup-btn {
+    width: auto;
+    padding: 0.875rem 3rem;
+    margin: 2rem auto 1.5rem;
+    display: block;
+    background-color: transparent;
+    border: 2px solid var(--text-primary);
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: 'Outfit', sans-serif;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.signup-btn:hover {
+    background-color: var(--text-primary);
+    color: var(--bg-card);
+}
+
+.login-link {
+    text-align: center;
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+
+.login-link a {
+    color: var(--text-primary);
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.login-link a:hover {
+    opacity: 0.8;
+}
+
+.error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    border-left: 4px solid #c62828;
+}
+
+[data-theme="dark"] .error-message {
+    background-color: #5c1a1a;
+    color: #ff8a80;
+    border-left-color: #ff8a80;
+}
+
+.signup-btn:disabled,
+select:disabled,
+input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+/* Dark mode adjustments */
+[data-theme='dark'] .form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+}

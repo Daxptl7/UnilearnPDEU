@@ -1,0 +1,123 @@
+.login-container {
+    min-height: calc(100vh - 200px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 500px;
+    border: 2px solid var(--text-primary);
+    border-radius: 20px;
+    padding: 3rem 2.5rem;
+    background-color: var(--bg-card);
+}
+
+.login-card h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 2px solid var(--text-primary);
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--text-secondary);
+}
+
+.login-btn {
+    width: auto;
+    padding: 0.875rem 3rem;
+    margin: 2rem auto 1.5rem;
+    display: block;
+    background-color: transparent;
+    border: 2px solid var(--text-primary);
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: 'Outfit', sans-serif;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.login-btn:hover {
+    background-color: var(--text-primary);
+    color: var(--bg-card);
+}
+
+.phone-login-btn {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    background-color: transparent;
+    border: 2px solid var(--text-primary);
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: 'Outfit', sans-serif;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.phone-login-btn:hover {
+    background-color: var(--bg-hover);
+}
+
+.signup-link {
+    text-align: center;
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+
+.signup-link a {
+    color: var(--text-primary);
+    text-decoration: underline;
+    font-weight: 600;
+    margin-left: 0.25rem;
+}
+
+.signup-link a:hover {
+    opacity: 0.8;
+}
+
+.error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    border-left: 4px solid #c62828;
+}
+
+[data-theme="dark"] .error-message {
+    background-color: #5c1a1a;
+    color: #ff8a80;
+    border-left-color: #ff8a80;
+}
+
+.login-btn:disabled,
+.phone-login-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
