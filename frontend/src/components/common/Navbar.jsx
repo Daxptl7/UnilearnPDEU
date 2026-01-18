@@ -1,66 +1,124 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { ShoppingCart, Heart, Search, Sun, Moon, User } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Plus, Video, MonitorPlay } from 'lucide-react';
 import './Navbar.css';
 
-const Navbar = ({ toggleTheme, isDarkMode, user, toggleLogin, viewMode, toggleViewMode }) => {
+const Navbar = ({ user, toggleLogin, viewMode, toggleViewMode }) => {
+    const [scrolled, setScrolled] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [createDropdownOpen, setCreateDropdownOpen] = useState(false);
+
+    // Ref for closing dropdown on click outside
+    const dropdownRef = useRef(null);
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const isScrolled = window.scrollY > 50;
+            if (isScrolled !== scrolled) {
+                setScrolled(isScrolled);
+            }
+        };
+
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setCreateDropdownOpen(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [scrolled]);
+
+    const handleLogout = () => {
+        toggleLogin();
+        navigate('/');
+    };
+
+    const isHome = location.pathname === '/';
+    // Transparent only if on Home Page AND NOT in teacher mode
+    const isTransparent = isHome && viewMode !== 'teacher' && !scrolled;
+    const navClass = isTransparent ? 'transparent' : 'scrolled';
+
     return (
-        <nav className="navbar">
-            <div className="navbar-left">
-                <Link to="/" className="navbar-logo">
-                    <span className="logo-text">UniLearn</span>
-                    <span className="logo-sub">by PDPU</span>
+        <header className={`headerContainer ${navClass}`}>
+            <div className="nav-container">
+                {/* Logo Section */}
+                <Link to="/" className="logoGroup">
+                    <img src="/logo.png" alt="PDEU Logo" style={{ height: '80px', width: 'auto' }} />
                 </Link>
-                <Link to="/my-learning" className="nav-link">My Learning</Link>
-                <Link to="/teach" className="nav-link">Teach on Unilearn</Link>
-            </div>
 
-            <div className="navbar-center">
-                <div className="search-bar">
-                    <Search className="search-icon" size={20} />
-                    <input type="text" placeholder="Search" />
-                </div>
-            </div>
-
-            <div className="navbar-right">
-                {user?.role === 'teacher' && (
-                    <button className="view-toggle-btn" onClick={toggleViewMode}>
-                        {viewMode === 'student' ? 'Switch to Teacher View' : 'Switch to Student View'}
-                    </button>
-                )}
-
-                <Link to="/cart" className="icon-btn" aria-label="Cart">
-                    <ShoppingCart size={24} />
-                </Link>
-                <button className="icon-btn" aria-label="Wishlist">
-                    <Heart size={24} />
+                {/* Hamburger for Mobile */}
+                <button className="hamburger" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+                    <span className="bar"></span>
+                    <span className="bar"></span>
+                    <span className="bar"></span>
                 </button>
 
-                {user ? (
-                    <div className="user-profile">
-                        <span className="user-name">Welcome, {user.name}</span>
-                        <div className="avatar__placeholder">
-                            <User size={20} />
-                        </div>
-                        <Link to="/" className="auth-btn secondary" onClick={toggleLogin}>Log Out</Link>
-                    </div>
-                ) : (
-                    <div className="auth-buttons">
-                        <Link to="/login" className="auth-btn secondary">LOG IN</Link>
-                        <Link to="/signup" className="auth-btn primary">SIGN UP</Link>
-                    </div>
-                )}
+                {/* Menu */}
+                <ul className={`menu ${mobileMenuOpen ? 'show' : ''}`}>
+                    <li>
+                        <Link
+                            to="/"
+                            className="menuLink"
+                            onClick={() => {
+                                if (viewMode === 'teacher') toggleViewMode();
+                            }}
+                        >
+                            Home
+                        </Link>
+                    </li>
+                    <li><Link to="/courses" className="menuLink">Courses</Link></li>
 
-                <button className="icon-btn theme-toggle" onClick={toggleTheme}>
-                    {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
-                </button>
+                    {user ? (
+                        <>
+                            {user.role === 'teacher' && (
+                                <>
 
-                {/* Helper visual for Avatar A circle from wireframe */}
-                <div className="avatar-circle">
-                    <span>A</span>
-                </div>
+
+                                    <li>
+                                        <span
+                                            onClick={() => {
+                                                toggleViewMode();
+                                                if (viewMode !== 'teacher') {
+                                                    navigate('/teacher/courses');
+                                                } else {
+                                                    navigate('/');
+                                                }
+                                            }}
+                                            className="menuLink"
+                                            style={{ cursor: 'pointer' }}
+                                        >
+                                            {viewMode === 'teacher' ? 'Switch to Student' : 'Switch to Teacher'}
+                                        </span>
+                                    </li>
+                                </>
+                            )}
+                            <li><Link to="/profile" className="menuLink">Profile</Link></li>
+                            {user.role === 'teacher' && viewMode === 'teacher' ? (
+                                <li><Link to="/teacher/courses" className="menuLink">Dashboard</Link></li>
+                            ) : (
+                                <li><Link to="/cart" className="menuLink">My Cart</Link></li>
+                            )}
+                            <li>
+                                <button onClick={handleLogout} className="auth-btn">Logout</button>
+                            </li>
+                        </>
+                    ) : (
+                        <>
+                            <li><Link to="/login" className="menuLink">Login</Link></li>
+                            <li><Link to="/signup" className="auth-btn">Sign Up</Link></li>
+                        </>
+                    )}
+                </ul>
             </div>
-        </nav>
+        </header>
     );
 };
 

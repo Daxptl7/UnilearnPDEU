@@ -1,36 +1,162 @@
-.footer {
-    padding: 1.5rem 2rem;
-    border-bottom: 2px solid var(--text-primary);
-    /* The wireframe shows a bottom line, wait, it says "About Support Legalities" inside a box at the bottom? The bottom box is "Professors... Top Companies... About Support Legalities" inside one big container? 
-  Looking closely at wireframe: 
-  The "Professors" box seems separate from the "About Support Legalities" row.
-  The wireframe shows a line separating Top Companies and the footer links "About Support Legalities".
-  Actually, looking at the very bottom of the image, there is a container with "About ... Support ... Legalities" inside the large bottom card? Or separate?
-  "Professors" is in a big box.
-  "Top Companies..." is inside that box.
-  Then a line.
-  Then "About Support Legalities".
-  It looks like "About, Support, Legalities" are the footer items.
-  I will style it as a simple footer bar for now, matching the clean wireframe look.
-  */
-    margin-top: 2rem;
+/* --- 1. MAIN BLACK FOOTER --- */
+.footerContainer {
+    background-color: #111111;
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+    padding: 80px 0 0 0;
+}
+
+.footerContent {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 40px 60px 40px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+/* Columns */
+.column {
+    flex: 1;
+    min-width: 220px;
+}
+
+.column h3 {
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 25px;
+    color: #ffffff;
+    font-weight: 700;
+    position: relative;
+}
+
+.column h3::after {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 2px;
+    background-color: #333;
+    margin-top: 10px;
+}
+
+.footer-description {
+    color: #999;
+    line-height: 1.8;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* Links List */
+.column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.column li {
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: #cccccc;
+}
+
+.column a {
+    color: #cccccc;
+    text-decoration: none;
+    transition: all 0.3s;
+    display: inline-block;
+}
+
+.column a:hover {
+    color: #A6192E;
+    /* Hover to Red */
+    transform: translateX(5px);
+}
+
+/* Contact Items */
+.contactItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 15px;
+    color: #cccccc;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.contactIcon {
+    color: #A6192E;
+    flex-shrink: 0;
+    margin-top: 3px;
+}
+
+/* --- 2. RED BOTTOM BAR --- */
+.bottomBar {
+    background-color: #A6192E;
+    padding: 40px 0;
+    color: white;
+}
+
+.bottomContainer {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-weight: 600;
-    max-width: 1400px;
-    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
-.footer-links {
+/* Right Section (Stacking Icons + Copyright) */
+.rightSection {
     display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0 4rem;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 15px;
+    text-align: right;
 }
 
-.footer-links a {
-    text-decoration: none;
-    color: var(--text-primary);
-    font-size: 1.2rem;
+/* Social Box Styles */
+.socialWrapper {
+    display: flex;
+    gap: 15px;
+}
+
+.socialBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 4px;
+    color: white;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+}
+
+.socialBox:hover {
+    background-color: #ffffff;
+    color: #A6192E;
+    transform: translateY(-3px);
+}
+
+.copyright {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+}
+
+/* Mobile Tweak */
+@media (max-width: 768px) {
+    .bottomContainer {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .rightSection {
+        align-items: center;
+    }
 }

@@ -41,6 +41,27 @@ const userSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  // Profile Fields
+  image: {
+    type: String,
+    default: ''
+  },
+  address: {
+    type: String,
+    default: ''
+  },
+  birthday: {
+    type: Date
+  },
+  personId: {
+    type: String,
+    unique: true,
+    sparse: true // Allows null/unique if not set immediately, though we will set it
+  },
+  school: {
+    type: String,
+    default: ''
   }
 });
 

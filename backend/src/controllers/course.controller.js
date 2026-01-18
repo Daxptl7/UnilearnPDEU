@@ -1,5 +1,99 @@
 import Course from '../models/Course.js';
 
+export const createCourse = async (req, res) => {
+  try {
+    const course = await Course.create({
+      ...req.body,
+      instructor: req.user.id,
+      status: 'approved' // Auto-approve for now
+    });
+
+    res.status(201).json({
+      success: true,
+      data: course
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+export const addSection = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.courseId);
+
+    if (!course) {
+      return res.status(404).json({
+        success: false,
+        message: 'Course not found'
+      });
+    }
+
+    if (course.instructor.toString() !== req.user.id && req.user.role !== 'admin') {
+      return res.status(401).json({
+        success: false,
+        message: 'Not authorized to update this course'
+      });
+    }
+
+    course.parts.push(req.body);
+    await course.save();
+
+    res.status(200).json({
+      success: true,
+      data: course
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+export const addLecture = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.courseId);
+
+    if (!course) {
+      return res.status(404).json({
+        success: false,
+        message: 'Course not found'
+      });
+    }
+
+    if (course.instructor.toString() !== req.user.id && req.user.role !== 'admin') {
+      return res.status(401).json({
+        success: false,
+        message: 'Not authorized to update this course'
+      });
+    }
+
+    const section = course.parts.id(req.params.sectionId);
+    if (!section) {
+      return res.status(404).json({
+        success: false,
+        message: 'Section not found'
+      });
+    }
+
+    section.lectures.push(req.body);
+    await course.save();
+
+    res.status(200).json({
+      success: true,
+      data: course
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
 export const getAllCourses = async (req, res) => {
   try {
     const courses = await Course.find({ status: 'approved' })

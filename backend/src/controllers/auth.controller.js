@@ -7,7 +7,7 @@ import { sendSuccess, sendError } from '../utils/response.js';
 // @access  Public
 export const register = async (req, res) => {
   try {
-    const { name, email, phone, password, role } = req.body;
+    const { name, email, phone, password, role, school } = req.body;
 
     // Check if user exists
     const userExists = await User.findOne({ email });
@@ -16,12 +16,16 @@ export const register = async (req, res) => {
     }
 
     // Create user
+    const personId = 'PDEU-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    
     const user = await User.create({
       name,
       email,
       phone,
       password,
-      role
+      role,
+      school,
+      personId
     });
 
     // Generate token
@@ -32,6 +36,7 @@ export const register = async (req, res) => {
       name: user.name,
       email: user.email,
       role: user.role,
+      school: user.school,
       token
     }, 'User registered successfully');
 
@@ -69,6 +74,7 @@ export const login = async (req, res) => {
       name: user.name,
       email: user.email,
       role: user.role,
+      school: user.school,
       token
     }, 'Login successful');
 
@@ -150,11 +156,14 @@ export const verifyOtpRegister = async (req, res) => {
     }
 
     // Create user
+    const personId = 'PDEU-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+
     const user = await User.create({
       name,
       email,
       password,
-      role: role || 'teacher' // Default to teacher for this flow
+      role: role || 'teacher', // Default to teacher for this flow
+      personId
     });
 
     // Delete OTP used

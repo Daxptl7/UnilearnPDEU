@@ -52,52 +52,66 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <div className="login-card">
-                <h1>Welcome Back.....</h1>
-
-                {error && (
-                    <div className="error-message">
-                        {error}
-                    </div>
-                )}
-
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                            disabled={loading}
-                        />
+            <div className="login-box">
+                <div className="login-content">
+                    {/* Header */}
+                    <div className="login-header">
+                        <h1 className="login-title">Welcome back</h1>
+                        <p className="login-subtitle">Please sign in to your account</p>
                     </div>
 
-                    <div className="form-group">
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            required
-                            disabled={loading}
-                        />
+                    {/* Form Section */}
+                    <div className="login-form-wrapper">
+                        {error && <div className="error-msg">{error}</div>}
+
+                        <form onSubmit={handleSubmit} className="login-form">
+                            <div className="input-group">
+                                <div className="form-field">
+                                    <label htmlFor="email">Email</label>
+                                    <input
+                                        id="email"
+                                        type="email"
+                                        name="email"
+                                        className="form-input"
+                                        placeholder="Enter your email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        required
+                                        disabled={loading}
+                                    />
+                                </div>
+
+                                <div className="form-field">
+                                    <label htmlFor="password">Password</label>
+                                    <input
+                                        id="password"
+                                        type="password"
+                                        name="password"
+                                        className="form-input"
+                                        placeholder="Enter your password"
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        required
+                                        disabled={loading}
+                                    />
+                                </div>
+                            </div>
+
+                            <button type="submit" className="login-submit-btn" disabled={loading}>
+                                {loading ? 'Signing in...' : 'Sign In'}
+                            </button>
+                        </form>
+
+                        <div className="signup-text">
+                            <p>
+                                Don't have an account yet?{' '}
+                                <Link to="/register" className="signup-link">
+                                    Create account
+                                </Link>
+                            </p>
+                        </div>
                     </div>
-
-                    <button type="submit" className="login-btn" disabled={loading}>
-                        {loading ? 'Logging in...' : 'Log in'}
-                    </button>
-                </form>
-
-                <button className="phone-login-btn" onClick={handlePhoneLogin} disabled={loading}>
-                    Log in with phone number
-                </button>
-
-                <p className="signup-link">
-                    Not Registered?<Link to="/signup">Sign Up</Link>
-                </p>
+                </div>
             </div>
         </div>
     );

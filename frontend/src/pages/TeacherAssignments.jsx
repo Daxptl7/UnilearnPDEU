@@ -9,6 +9,7 @@ import {
     ChevronDown,
     Search
 } from 'lucide-react';
+import TeacherSidebar from '../components/teacher/TeacherSidebar';
 import './TeacherCommunication.css'; // Reusing the same CSS
 
 const TeacherAssignments = () => {
@@ -17,26 +18,7 @@ const TeacherAssignments = () => {
     return (
         <div className="teacher-comm-container">
             {/* Sidebar - Reused */}
-            <aside className="comm-sidebar">
-                <div className="td-logo">
-                    <h2>U</h2>
-                </div>
-
-                <nav className="comm-nav">
-                    <Link to="/" className="comm-nav-item">
-                        <div className="comm-nav-icon"><BookOpen size={24} /></div>
-                    </Link>
-                    <div className="comm-nav-item active">
-                        <div className="comm-nav-icon"><MessageCircle size={24} /></div>
-                    </div>
-                    <Link to="#" className="comm-nav-item">
-                        <div className="comm-nav-icon"><BarChart2 size={24} /></div>
-                    </Link>
-                    <Link to="#" className="comm-nav-item">
-                        <div className="comm-nav-icon"><Settings size={24} /></div>
-                    </Link>
-                </nav>
-            </aside>
+            <TeacherSidebar />
 
             {/* Sub Sidebar */}
             <div className="comm-sub-sidebar">

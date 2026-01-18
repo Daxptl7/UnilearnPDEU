@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Heart, Share2, ChevronDown, ChevronUp, Play, Lock, CheckCircle, Circle } from 'lucide-react';
+import { Heart, Share2, ChevronDown, ChevronUp, Play, Lock, CheckCircle, Circle, ThumbsUp, PlusSquare, MoreHorizontal } from 'lucide-react';
 import { getSimilarCourses } from '../data/courses';
 import { fetchCourseBySlug } from '../api/course.api';
 import { enrollInCourse, addToCart, fetchCart, fetchMyCourses, fetchCourseProgress, updateLectureProgress } from '../api/student.api';
@@ -27,7 +27,7 @@ const CourseDetail = () => {
     const [courseProgress, setCourseProgress] = useState(0); // percentage
 
     // Video Player State
-    const [currentVideo, setCurrentVideo] = useState(null);
+    const [currentLecture, setCurrentLecture] = useState(null);
 
     useEffect(() => {
         const loadCourseData = async () => {
@@ -65,6 +65,11 @@ const CourseDetail = () => {
                         const inCart = myCart.success && myCart.data.some(c => c._id === courseData._id);
                         setIsInCart(inCart);
                     }
+                }
+
+                // Expand the first part by default
+                if (courseData.parts && courseData.parts.length > 0) {
+                    setExpandedParts({ [courseData.parts[0]._id || courseData.parts[0].order]: true });
                 }
             } catch (err) {
                 console.error('Error loading course data:', err);
@@ -150,14 +155,17 @@ const CourseDetail = () => {
         }
     };
 
-    const playVideo = (videoUrl) => {
+    const playVideo = (lecture) => {
         if (!isEnrolled) {
-            alert('Please enroll in the course to watch this video.');
-            return;
+            if (lecture.status === 'unlocked') {
+                // Allow preview if unlocked
+            } else {
+                alert('Please enroll in the course to watch this video.');
+                return;
+            }
         }
-        // Extract video ID from embed URL or watch URL if needed
-        // Assuming videoUrl is like "https://www.youtube.com/embed/..."
-        setCurrentVideo(videoUrl);
+        setCurrentLecture(lecture);
+        // Scroll to top for mobile mostly, or just ensuring visibility
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -184,7 +192,7 @@ const CourseDetail = () => {
         }
     };
 
-    if (loading) return <div className="course-loading">Loading course details...</div>;
+    if (loading) return <div className="course-loading">Loading...</div>;
 
     if (error || !course) {
         return (
@@ -196,246 +204,190 @@ const CourseDetail = () => {
     }
 
     const similarCourses = getSimilarCourses(course.id);
+    const videoSource = currentLecture ? currentLecture.videoUrl : course.videoPreview;
+    const activeTitle = currentLecture ? currentLecture.title : course.name + " (Preview)";
 
     return (
         <div className="course-detail-container">
-            {/* Breadcrumb */}
-            <div className="breadcrumb">{course.category}</div>
-
-            {/* Video Player Overlay */}
-            {currentVideo && (
-                <div className="video-player-container">
-                    <div className="video-wrapper">
-                        <iframe
-                            width="100%"
-                            height="500"
-                            src={currentVideo}
-                            title="Course Video"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen>
-                        </iframe>
-                        <button className="close-video-btn" onClick={() => setCurrentVideo(null)}>Close Video</button>
-                    </div>
-                </div>
-            )}
-
+            {/* Layout Grid */}
             <div className="course-layout">
-                {/* Main Content */}
+
+                {/* LEFT: Video Player & Details */}
                 <div className="course-main">
-                    {/* Course Header */}
-                    <div className="course-header-section">
-                        <div className="course-info-left">
-                            {course.provider && (
-                                <div className="provider-logo">
-                                    {course.provider}
-                                </div>
-                            )}
 
-                            <h1 className="course-title">
-                                <span className="course-label">COURSE NAME:</span> {course.name}
-                            </h1>
+                    {/* 1. Video Player */}
+                    <div className="main-video-player">
+                        {videoSource ? (
+                            <iframe
+                                src={videoSource}
+                                title={activeTitle}
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            ></iframe>
+                        ) : (
+                            <div className="video-placeholder">
+                                {course.thumbnail && <img src={course.thumbnail} alt={course.name} />}
+                                <span>No video selected</span>
+                            </div>
+                        )}
+                    </div>
 
-                            <p className="course-subtitle">{course.subtitle}</p>
-                            <p className="course-description">{course.description}</p>
-                            <p className="educator-info">Instructor: {course.instructor?.name}</p>
+                    {/* 2. Video Info & Actions */}
+                    <div className="video-info-section">
+                        <h1 className="video-title">{activeTitle}</h1>
+                        <div className="video-meta-row">
+                            <div className="video-stats">
+                                <span>{course.stats?.rating || 0} ⭐ ratings</span> • <span>{course.stats?.parts || 0} parts</span>
+                            </div>
 
-                            {/* Progress Bar for Enrolled Students */}
-                            {isEnrolled && (
-                                <div className="course-progress-section">
-                                    <div className="progress-header">
-                                        <span>Your Progress</span>
-                                        <span>{courseProgress}% Complete</span>
-                                    </div>
-                                    <div className="progress-bar-container">
-                                        <div
-                                            className="progress-bar-fill"
-                                            style={{ width: `${courseProgress}%` }}
-                                        ></div>
-                                    </div>
-                                </div>
-                            )}
+                            <div className="action-buttons">
+                                <button className="btn-action">
+                                    <ThumbsUp size={18} /> Like
+                                </button>
+                                <button className="btn-action">
+                                    <Share2 size={18} /> Share
+                                </button>
+                                <button className="btn-action">
+                                    <PlusSquare size={18} /> Save
+                                </button>
 
-                            <div className="course-actions">
-                                <div className="price-tag">
-                                    <span className="price-label">Price:</span>
-                                    <span className="price-value">{course.price === 0 ? 'Free' : `₹${course.price}`}</span>
-                                </div>
-
-                                <div className="action-buttons">
-                                    {isEnrolled ? (
-                                        <button className="btn-enroll enrolled" disabled>Enrolled</button>
-                                    ) : (
-                                        <>
-                                            <button
-                                                className="btn-enroll"
-                                                onClick={handleEnroll}
-                                                disabled={enrollLoading}>
-                                                {enrollLoading ? 'Enrolling...' : 'Enroll Now!'}
-                                            </button>
-                                            {!isInCart && (
-                                                <button
-                                                    className="btn-cart"
-                                                    onClick={handleAddToCart}
-                                                    disabled={cartLoading}>
-                                                    {cartLoading ? 'Adding...' : 'Add to cart'}
-                                                </button>
-                                            )}
-                                            {isInCart && (
-                                                <Link to="/cart" className="btn-cart went-to-cart">Go to Cart</Link>
-                                            )}
-                                        </>
-                                    )}
-
-                                    <button className="btn-icon">
-                                        <Heart size={24} />
-                                    </button>
-                                    <button className="btn-icon">
-                                        <Share2 size={24} />
-                                    </button>
-                                </div>
+                                <button className="btn-action" style={{ borderRadius: '50%', padding: '0.5rem' }}>
+                                    <MoreHorizontal size={18} />
+                                </button>
                             </div>
                         </div>
-
-                        <div className="course-thumbnail">
-                            {course.videoPreview ? (
-                                <div className="video-preview">
-                                    <iframe
-                                        width="100%"
-                                        height="100%"
-                                        src={course.videoPreview}
-                                        title="Preview"
-                                        frameBorder="0"
-                                        allowFullScreen
-                                    ></iframe>
-                                </div>
-                            ) : (
-                                <img src={course.thumbnail} alt={course.name} className="thumbnail-img" />
-                            )}
-                        </div>
                     </div>
 
-                    {/* Course Stats */}
-                    <div className="course-stats">
-                        <div className="stat-item">
-                            <span className="stat-label">no. of parts in the course</span>
-                            <span className="stat-value">{course.stats?.parts || 0}</span>
+                    {/* 3. Channel / Instructor Row */}
+                    <div className="channel-row">
+                        <div className="channel-avatar">
+                            {course.instructor?.name?.charAt(0) || 'I'}
                         </div>
-                        <div className="stat-item">
-                            <span className="stat-label">Ratings & Reviews</span>
-                            <span className="stat-value">{course.stats?.rating || 0} ⭐ ({course.stats?.reviews || 0})</span>
+                        <div className="channel-info">
+                            <Link to="#" className="channel-name">{course.instructor?.name || 'Instructor'}</Link>
+                            <div className="channel-sub">{course.instructor?.role || 'Educator'}</div>
                         </div>
-                        <div className="stat-item">
-                            <span className="stat-label">Difficulty Level</span>
-                            <span className="stat-value">{course.stats?.difficulty}</span>
-                        </div>
-                        <div className="stat-item">
-                            <span className="stat-label">Total hours</span>
-                            <span className="stat-value">{course.stats?.totalHours}h</span>
-                        </div>
-                        <div className="stat-item cert">
-                            <span className="stat-label">📜 Shareable certificate</span>
-                        </div>
-                    </div>
 
-                    {/* What You'll Learn */}
-                    <div className="what-learn-section">
-                        <h2>What you'll learn</h2>
-                        <div className="learn-grid">
-                            {course.whatYouLearn && course.whatYouLearn.map((item, index) => (
-                                <div key={index} className="learn-item">
-                                    {item}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Course Content */}
-                    <div className="course-content-section">
-                        <h2>Course content</h2>
-                        {course.parts && course.parts.map((part) => (
-                            <div key={part._id || part.order} className="part-container">
-                                <div className="part-header" onClick={() => togglePart(part._id || part.order)}>
-                                    <div className="part-title-row">
-                                        <span className="part-title">{part.title}</span>
-                                        {part.resources && (
-                                            <button className="btn-resources">Resources</button>
-                                        )}
-                                    </div>
-                                    <button className="btn-expand">
-                                        {expandedParts[part._id || part.order] ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                        {/* Enrollment Actions for top area */}
+                        {!isEnrolled && (
+                            <div className="enrollment-actions">
+                                {isInCart ? (
+                                    <Link to="/cart" className="btn-enroll-primary">Go to Cart</Link>
+                                ) : (
+                                    <button onClick={handleEnroll} className="btn-enroll-primary" disabled={enrollLoading}>
+                                        {enrollLoading ? 'Enrolling...' : 'Enroll Now'}
                                     </button>
+                                )}
+                            </div>
+                        )}
+                        {isEnrolled && (
+                            <button className="btn-action" style={{ background: '#e5e5e5', color: '#111' }}>
+                                Subscribed
+                            </button>
+                        )}
+                    </div>
+
+                    {/* 4. Description Box */}
+                    <div className="description-box">
+                        <h3>About this course</h3>
+                        <p>{course.description}</p>
+
+                        <div style={{ marginTop: '1rem' }}>
+                            <strong>Category:</strong> {course.category} <br />
+                            <strong>Level:</strong> {course.stats?.difficulty} <br />
+                            <strong>Duration:</strong> {course.stats?.totalHours}h
+                        </div>
+
+                        {course.whatYouLearn && (
+                            <div style={{ marginTop: '1rem' }}>
+                                <strong>What you'll learn:</strong>
+                                <ul style={{ paddingLeft: '1.2rem', marginTop: '0.5rem' }}>
+                                    {course.whatYouLearn.map((item, idx) => (
+                                        <li key={idx} style={{ marginBottom: '0.25rem' }}>{item}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+
+                </div>
+
+                {/* RIGHT: Sidebar (Playlist) */}
+                <div className="course-sidebar">
+                    <div className="sidebar-header">
+                        <div className="sidebar-title">Course Content</div>
+                        {isEnrolled && (
+                            <div className="course-progress-mini">
+                                {courseProgress}% Completed
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Lectures List */}
+                    <div className="parts-list">
+                        {course.parts && course.parts.map((part) => (
+                            <div key={part._id || part.order} className="part-section">
+                                <div className="part-header" onClick={() => togglePart(part._id || part.order)}>
+                                    <span>{part.title}</span>
+                                    {expandedParts[part._id || part.order] ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                                 </div>
 
-                                {expandedParts[part._id || part.order] && part.lectures.length > 0 && (
-                                    <div className="lectures-list">
-                                        {part.lectures.map((lecture) => (
-                                            <div key={lecture._id} className="lecture-item" onClick={() => playVideo(lecture.videoUrl)}>
-                                                <div className="lecture-left">
+                                {expandedParts[part._id || part.order] && (
+                                    <div className="lectures-container">
+                                        {part.lectures.map((lecture, idx) => {
+                                            const isActive = currentLecture && currentLecture._id === lecture._id;
+                                            const isCompleted = progressMap[lecture._id];
+                                            const isLocked = !isEnrolled && lecture.status !== 'unlocked';
+
+                                            return (
+                                                <div
+                                                    key={lecture._id}
+                                                    className={`lecture-item ${isActive ? 'active' : ''}`}
+                                                    onClick={() => !isLocked && playVideo(lecture)}
+                                                >
+                                                    <div className="lecture-status-icon">
+                                                        {isActive ? <Play size={14} fill="currentColor" /> : <span style={{ fontSize: '0.8rem' }}>{idx + 1}</span>}
+                                                    </div>
+                                                    <div className="lecture-info">
+                                                        <div className="lecture-title">{lecture.title}</div>
+                                                        <div className="lecture-meta">
+                                                            <span>{lecture.duration}</span>
+                                                            {isLocked && <Lock size={12} />}
+                                                        </div>
+                                                    </div>
                                                     {isEnrolled && (
                                                         <button
-                                                            className={`btn-check ${progressMap[lecture._id] ? 'completed' : ''}`}
+                                                            className={`lecture-check ${isCompleted ? 'completed' : ''}`}
                                                             onClick={(e) => toggleLectureCompletion(e, lecture._id)}
-                                                            title={progressMap[lecture._id] ? "Mark as incomplete" : "Mark as complete"}
                                                         >
-                                                            {progressMap[lecture._id] ? <CheckCircle size={20} color="#10b981" /> : <Circle size={20} />}
+                                                            {isCompleted ? <CheckCircle size={16} /> : <Circle size={16} />}
                                                         </button>
                                                     )}
-                                                    <span className={`lecture-title ${progressMap[lecture._id] ? 'text-muted' : ''}`}>
-                                                        {lecture.title}
-                                                    </span>
                                                 </div>
-                                                <div className="lecture-right">
-                                                    {lecture.duration && (
-                                                        <span className="lecture-duration">{lecture.duration}</span>
-                                                    )}
-                                                    <span className="lecture-status">
-                                                        {isEnrolled || lecture.status === 'unlocked' ? (
-                                                            <Play size={18} className="icon-play" />
-                                                        ) : (
-                                                            <Lock size={18} className="icon-lock" />
-                                                        )}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        ))}
+                                            );
+                                        })}
                                     </div>
                                 )}
                             </div>
                         ))}
                     </div>
-                </div>
 
-                {/* Sidebar */}
-                <div className="course-sidebar">
-                    {/* Similar Courses */}
-                    <div className="similar-courses">
-                        <h3>Similar courses/Other courses</h3>
-                        <div className="similar-list">
-                            {similarCourses.map((similarCourse) => (
-                                <Link
-                                    key={similarCourse.id}
-                                    to={`/course/${similarCourse.slug}`}
-                                    className="similar-course-card"
-                                >
-                                    <div className="similar-thumbnail"></div>
-                                    <span className="similar-name">{similarCourse.name}</span>
-                                </Link>
-                            ))}
-                        </div>
+                    {/* Similar Courses (at bottom of sidebar) */}
+                    <div className="similar-courses-section">
+                        <div style={{ padding: '0 1.5rem 0.5rem', fontWeight: '700' }}>Relate Courses</div>
+                        {similarCourses.map((similar) => (
+                            <Link key={similar.id} to={`/course/${similar.slug}`} className="similar-item" style={{ padding: '0 1.5rem' }}>
+                                <div className="similar-thumb"></div> {/* Placeholder for img */}
+                                <div className="similar-info">
+                                    <div className="similar-title">{similar.name}</div>
+                                    <div className="similar-author">By {similar.instructor}</div>
+                                </div>
+                            </Link>
+                        ))}
                     </div>
 
-                    {/* Instructor Details */}
-                    {course.instructor && (
-                        <div className="instructor-details">
-                            <h3>INSTRUCTOR DETAILS</h3>
-                            <div className="instructor-info">
-                                <p><strong>{course.instructor.name}</strong></p>
-                                <p>{course.instructor.role}</p>
-                            </div>
-                        </div>
-                    )}
                 </div>
+
             </div>
         </div>
     );

@@ -12,7 +12,8 @@ const Register = () => {
         email: '',
         phone: '',
         password: '',
-        name: ''
+        name: '',
+        school: ''
     });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -100,6 +101,28 @@ const Register = () => {
                             disabled={loading}
                         />
                     </div>
+
+                    {formData.role === 'student' && (
+                        <div className="form-group">
+                            <label>Select your School</label>
+                            <select
+                                name="school"
+                                value={formData.school}
+                                onChange={handleChange}
+                                required
+                                disabled={loading}
+                                className="form-input"
+                                style={{ marginTop: '5px' }}
+                            >
+                                <option value="">Select School...</option>
+                                <option value="SOT">SOT (School of Technology)</option>
+                                <option value="SOET">SOET (School of Engineering & Technology)</option>
+                                <option value="SLS">SLS (School of Liberal Studies)</option>
+                                <option value="SOL">SOL (School of Law)</option>
+                                <option value="SPM">SPM (School of Petroleum Management)</option>
+                            </select>
+                        </div>
+                    )}
 
                     <div className="form-group">
                         <input
