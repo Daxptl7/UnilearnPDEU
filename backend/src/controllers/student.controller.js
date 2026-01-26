@@ -13,6 +13,11 @@ export const enrollCourse = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Course not found' });
     }
 
+    // Prevent self-enrollment (Teachers cannot enroll in their own course)
+    if (course.instructor.toString() === userId.toString()) {
+        return res.status(400).json({ success: false, message: 'You cannot enroll in your own course' });
+    }
+
     const user = await User.findById(userId);
 
     // Check if already enrolled via User model (legacy check) or Enrollment model

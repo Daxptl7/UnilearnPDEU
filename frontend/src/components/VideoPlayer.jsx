@@ -11,10 +11,10 @@ const VideoPlayer = ({ stream, isMuted = false }) => {
     }, [stream]);
 
     return (
-        <div className="relative w-full h-full bg-black rounded-lg overflow-hidden shadow-lg border border-purple-900/50">
+        <div className="w-full h-full bg-black">
             <video
                 ref={videoRef}
-                muted={isMuted} // Mute self to avoid feedback
+                muted={isMuted}
                 className="w-full h-full object-cover"
                 autoPlay
                 playsInline

@@ -7,7 +7,7 @@ const router = express.Router();
 
 // protect all routes
 router.use(protect);
-router.use(authorize(ROLES.STUDENT));
+router.use(authorize(ROLES.STUDENT, ROLES.TEACHER));
 
 router.post('/enroll/:courseId', enrollCourse);
 router.post('/cart/:courseId', addToCart);

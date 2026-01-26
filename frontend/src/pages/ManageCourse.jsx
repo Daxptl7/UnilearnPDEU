@@ -3,8 +3,12 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import TeacherSidebar from '../components/teacher/TeacherSidebar';
 import { fetchCourseBySlug } from '../api/course.api';
 import { addSection, addLecture } from '../api/teacher.api';
-import { Plus, Video, MonitorPlay, ChevronDown, ChevronUp, Bookmark, Share2, MoreVertical } from 'lucide-react';
+import { Plus, Video, MonitorPlay, ChevronDown, ChevronUp, Bookmark, Share2, MoreVertical, Copy } from 'lucide-react';
 import './TeacherCommunication.css';
+import { io } from 'socket.io-client';
+import { v4 as uuidv4 } from 'uuid';
+import { useAuth } from '../context/AuthContext';
+import { config } from '../config';
 
 const ManageCourse = () => {
     const { slug } = useParams();
@@ -20,7 +24,17 @@ const ManageCourse = () => {
     // Modal states
     const [showSectionModal, setShowSectionModal] = useState(false);
     const [showLectureModal, setShowLectureModal] = useState(false);
+    const [showGoLiveModal, setShowGoLiveModal] = useState(false);
+    const [meetingCode, setMeetingCode] = useState('');
     const [activeSectionId, setActiveSectionId] = useState(null);
+
+    const { user } = useAuth();
+    const socketRef = useRef();
+
+    useEffect(() => {
+        socketRef.current = io(config.SOCKET_URL);
+        return () => socketRef.current.disconnect();
+    }, []);
 
     // Form states
     const [sectionTitle, setSectionTitle] = useState('');
@@ -121,7 +135,7 @@ const ManageCourse = () => {
         <div className="teacher-comm-container">
             <TeacherSidebar />
 
-            <main className="comm-main" style={{ padding: '0', overflowY: 'auto', backgroundColor: '#0f0f0f' }}>
+            <main className="comm-main" style={{ padding: '0', overflowY: 'auto' }}>
                 <div className="playlist-page-container">
 
                     {/* Left Sidebar - Playlist Info */}
@@ -159,7 +173,7 @@ const ManageCourse = () => {
                                     className="playlist-play-btn"
                                     onClick={() => setManageDropdownOpen(!manageDropdownOpen)}
                                 >
-                                    <Plus size={20} fill="black" /> Create
+                                    <Plus size={20} className="text-white dark:text-black" /> Create
                                 </button>
 
                                 {manageDropdownOpen && (
@@ -176,7 +190,8 @@ const ManageCourse = () => {
                                         <button
                                             className="manage-dropdown-item"
                                             onClick={() => {
-                                                navigate(`/live/${course._id}`);
+                                                setMeetingCode(uuidv4());
+                                                setShowGoLiveModal(true);
                                                 setManageDropdownOpen(false);
                                             }}
                                         >
@@ -206,7 +221,7 @@ const ManageCourse = () => {
                                             {expandedSections[section._id] ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                                             Section {index + 1}: {section.title}
                                         </div>
-                                        <div style={{ fontSize: '14px', color: '#aaa' }}>
+                                        <div style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>
                                             {section.lectures.length} Lectures
                                         </div>
                                     </div>
@@ -262,18 +277,18 @@ const ManageCourse = () => {
                 {/* Modals */}
                 {showSectionModal && (
                     <div className="modal-overlay" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
-                        <div className="modal-content" style={{ background: 'white', padding: '25px', borderRadius: '12px', width: '400px' }}>
-                            <h3 style={{ marginTop: 0 }}>Add New Section</h3>
+                        <div className="modal-content" style={{ background: 'var(--bg-card)', padding: '25px', borderRadius: '12px', width: '400px' }}>
+                            <h3 style={{ marginTop: 0, color: 'var(--text-primary)' }}>Add New Section</h3>
                             <input
                                 type="text"
                                 placeholder="Section Title (e.g. Introduction)"
                                 value={sectionTitle}
                                 onChange={(e) => setSectionTitle(e.target.value)}
-                                style={{ width: '100%', padding: '10px', marginTop: '15px', borderRadius: '6px', border: '1px solid #ddd' }}
+                                style={{ width: '100%', padding: '10px', marginTop: '15px', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'var(--text-primary)' }}
                             />
                             <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-                                <button onClick={() => setShowSectionModal(false)} style={{ padding: '8px 16px', border: 'none', background: '#eee', borderRadius: '6px', cursor: 'pointer' }}>Cancel</button>
-                                <button onClick={handleAddSection} style={{ padding: '8px 16px', border: 'none', background: '#6C63FF', color: 'white', borderRadius: '6px', cursor: 'pointer' }}>Add Section</button>
+                                <button onClick={() => setShowSectionModal(false)} style={{ padding: '8px 16px', border: 'none', background: 'var(--bg-hover)', borderRadius: '6px', cursor: 'pointer', color: 'var(--text-primary)' }}>Cancel</button>
+                                <button onClick={handleAddSection} style={{ padding: '8px 16px', border: 'none', background: 'var(--accent-color)', color: 'white', borderRadius: '6px', cursor: 'pointer' }}>Add Section</button>
                             </div>
                         </div>
                     </div>
@@ -281,22 +296,101 @@ const ManageCourse = () => {
 
                 {showLectureModal && (
                     <div className="modal-overlay" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
-                        <div className="modal-content" style={{ background: 'white', padding: '25px', borderRadius: '12px', width: '500px', maxHeight: '90vh', overflowY: 'auto' }}>
-                            <h3 style={{ marginTop: 0 }}>Add Video Lecture</h3>
+                        <div className="modal-content" style={{ background: 'var(--bg-card)', padding: '25px', borderRadius: '12px', width: '500px', maxHeight: '90vh', overflowY: 'auto' }}>
+                            <h3 style={{ marginTop: 0, color: 'var(--text-primary)' }}>Add Video Lecture</h3>
                             <form onSubmit={handleAddLecture} style={{ display: 'grid', gap: '15px' }}>
-                                <input type="text" placeholder="Lecture Title" required value={lectureData.title} onChange={e => setLectureData({ ...lectureData, title: e.target.value })} className="modal-input" style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #ddd' }} />
-                                <input type="text" placeholder="Video URL" value={lectureData.videoUrl} onChange={e => setLectureData({ ...lectureData, videoUrl: e.target.value })} className="modal-input" style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #ddd' }} />
-                                <input type="text" placeholder="Duration (e.g. 10:05)" value={lectureData.duration} onChange={e => setLectureData({ ...lectureData, duration: e.target.value })} className="modal-input" style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #ddd' }} />
-                                <textarea placeholder="Description" value={lectureData.description} onChange={e => setLectureData({ ...lectureData, description: e.target.value })} className="modal-input" style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #ddd' }}></textarea>
-                                <textarea placeholder="Summary" value={lectureData.summary} onChange={e => setLectureData({ ...lectureData, summary: e.target.value })} className="modal-input" style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #ddd' }}></textarea>
-                                <input type="text" placeholder="Thumbnail URL" value={lectureData.thumbnail} onChange={e => setLectureData({ ...lectureData, thumbnail: e.target.value })} className="modal-input" style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #ddd' }} />
-                                <input type="text" placeholder="Notes URL (PDF/Doc)" value={lectureData.notes} onChange={e => setLectureData({ ...lectureData, notes: e.target.value })} className="modal-input" style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #ddd' }} />
+                                <input type="text" placeholder="Lecture Title" required value={lectureData.title} onChange={e => setLectureData({ ...lectureData, title: e.target.value })} className="modal-input" style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'var(--text-primary)' }} />
+                                <input type="text" placeholder="Video URL" value={lectureData.videoUrl} onChange={e => setLectureData({ ...lectureData, videoUrl: e.target.value })} className="modal-input" style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'var(--text-primary)' }} />
+                                <input type="text" placeholder="Duration (e.g. 10:05)" value={lectureData.duration} onChange={e => setLectureData({ ...lectureData, duration: e.target.value })} className="modal-input" style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'var(--text-primary)' }} />
+                                <textarea placeholder="Description" value={lectureData.description} onChange={e => setLectureData({ ...lectureData, description: e.target.value })} className="modal-input" style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'var(--text-primary)' }}></textarea>
+                                <textarea placeholder="Summary" value={lectureData.summary} onChange={e => setLectureData({ ...lectureData, summary: e.target.value })} className="modal-input" style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'var(--text-primary)' }}></textarea>
+                                <input type="text" placeholder="Thumbnail URL" value={lectureData.thumbnail} onChange={e => setLectureData({ ...lectureData, thumbnail: e.target.value })} className="modal-input" style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'var(--text-primary)' }} />
+                                <input type="text" placeholder="Notes URL (PDF/Doc)" value={lectureData.notes} onChange={e => setLectureData({ ...lectureData, notes: e.target.value })} className="modal-input" style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-primary)', color: 'var(--text-primary)' }} />
 
                                 <div style={{ marginTop: '10px', display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-                                    <button type="button" onClick={() => setShowLectureModal(false)} style={{ padding: '8px 16px', border: 'none', background: '#eee', borderRadius: '6px', cursor: 'pointer' }}>Cancel</button>
-                                    <button type="submit" style={{ padding: '8px 16px', border: 'none', background: '#6C63FF', color: 'white', borderRadius: '6px', cursor: 'pointer' }}>Upload Video</button>
+                                    <button type="button" onClick={() => setShowLectureModal(false)} style={{ padding: '8px 16px', border: 'none', background: 'var(--bg-hover)', borderRadius: '6px', cursor: 'pointer', color: 'var(--text-primary)' }}>Cancel</button>
+                                    <button type="submit" style={{ padding: '8px 16px', border: 'none', background: 'var(--accent-color)', color: 'white', borderRadius: '6px', cursor: 'pointer' }}>Upload Video</button>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                )}
+
+                {/* Go Live Modal */}
+                {showGoLiveModal && (
+                    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-[1000]">
+                        <div className="bg-white dark:bg-[#1e1e2e] p-8 rounded-2xl w-[450px] border border-gray-200 dark:border-white/10 shadow-2xl transition-colors duration-200">
+                            <div className="flex items-center gap-4 mb-6">
+                                <div className="w-12 h-12 rounded-xl bg-red-50 dark:bg-red-500/20 flex items-center justify-center">
+                                    <Video size={24} className="text-red-500" />
+                                </div>
+                                <div>
+                                    <h3 className="m-0 text-gray-900 dark:text-white text-2xl font-bold mb-1">Go Live</h3>
+                                    <p className="m-0 text-gray-500 dark:text-gray-400 text-sm">Start a live session for your students</p>
+                                </div>
+                            </div>
+
+                            <div className="bg-gray-100 dark:bg-[#0f0f1a] p-4 rounded-xl border border-gray-200 dark:border-white/5 mb-6">
+                                <label className="block text-gray-600 dark:text-gray-400 text-xs font-semibold mb-2 tracking-wide">MEETING CODE</label>
+                                <div className="flex gap-2 items-center">
+                                    <code className="flex-1 bg-transparent text-indigo-600 dark:text-indigo-400 text-lg font-mono font-bold">
+                                        {meetingCode}
+                                    </code>
+                                    <button
+                                        onClick={() => {
+                                            navigator.clipboard.writeText(meetingCode);
+                                            const btn = document.getElementById('copy-live-code-btn');
+                                            if (btn) {
+                                                const originalContent = btn.innerHTML;
+                                                btn.innerHTML = '✓';
+                                                setTimeout(() => btn.innerHTML = originalContent, 2000);
+                                            }
+                                        }}
+                                        id="copy-live-code-btn"
+                                        className="bg-white dark:bg-white/10 border border-gray-300 dark:border-none text-gray-700 dark:text-white p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/20 transition-all w-8 h-8 flex items-center justify-center"
+                                        title="Copy Code"
+                                    >
+                                        <Copy size={16} />
+                                    </button>
+                                </div>
+                            </div>
+
+                            <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-6">
+                                Share this code with your students via announcements or chat. They can join the live session using this code.
+                            </p>
+
+                            <div className="flex gap-4">
+                                <button
+                                    onClick={() => setShowGoLiveModal(false)}
+                                    className="flex-1 py-3 px-4 border border-gray-300 dark:border-white/10 bg-white dark:bg-transparent text-gray-700 dark:text-white rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        if (socketRef.current) {
+                                            socketRef.current.emit('start-live-session',
+                                                { roomId: meetingCode, teacherId: user?.name || 'Teacher', courseId: course._id },
+                                                (response) => {
+                                                    if (response && response.success) {
+                                                        navigate(`/live/${meetingCode}`);
+                                                    } else {
+                                                        // Fallback if no ack (old server) or error, but give it a tiny delay
+                                                        navigate(`/live/${meetingCode}`);
+                                                    }
+                                                }
+                                            );
+                                            // Fallback timeout in case server doesn't respond
+                                            setTimeout(() => {
+                                                navigate(`/live/${meetingCode}`);
+                                            }, 2000);
+                                        }
+                                    }}
+                                    className="flex-1 py-3 px-4 bg-indigo-600 dark:bg-gradient-to-r dark:from-pink-500 dark:to-violet-500 text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/30 dark:shadow-pink-500/30 hover:opacity-90 transition-opacity border-none"
+                                >
+                                    Start Meeting
+                                </button>
+                            </div>
                         </div>
                     </div>
                 )}

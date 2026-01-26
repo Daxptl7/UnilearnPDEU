@@ -20,12 +20,18 @@ import TeacherCourses from './pages/TeacherCourses';
 import TeacherCreateCourse from './pages/TeacherCreateCourse';
 import ManageCourse from './pages/ManageCourse';
 import LiveClass from './pages/LiveClass';
+import StudentCourses from './pages/StudentCourses';
 
 // Layout Component to handle conditional padding
 const PageLayout = ({ children, navbarProps, viewMode }) => {
     const location = useLocation();
     // Only apply 0 padding if on Home Page AND in Student Mode
     const isStudentHome = location.pathname === '/' && viewMode !== 'teacher';
+    const isLiveClass = location.pathname.startsWith('/live/');
+
+    if (isLiveClass) {
+        return <div className="app">{children}</div>;
+    }
 
     return (
         <div className="app">
@@ -38,23 +44,17 @@ const PageLayout = ({ children, navbarProps, viewMode }) => {
     );
 };
 
+import { ThemeProvider } from './context/ThemeContext';
+
 function App() {
     const { user, logout } = useAuth();
-    const [isDarkMode, setIsDarkMode] = useState(false);
     const [viewMode, setViewMode] = useState('student'); // 'student' or 'teacher'
-
-    const toggleTheme = () => {
-        setIsDarkMode(!isDarkMode);
-        document.documentElement.setAttribute('data-theme', !isDarkMode ? 'dark' : 'light');
-    };
 
     const toggleViewMode = () => {
         setViewMode(prev => prev === 'student' ? 'teacher' : 'student');
     };
 
     const navbarProps = {
-        toggleTheme,
-        isDarkMode,
         user,
         toggleLogin: logout,
         viewMode,
@@ -62,33 +62,36 @@ function App() {
     };
 
     return (
-        <Router>
-            <PageLayout navbarProps={navbarProps} viewMode={viewMode}>
-                <Routes>
-                    <Route path="/" element={<Home user={user} viewMode={viewMode} toggleViewMode={toggleViewMode} />} />
-                    <Route path="/signup" element={<Register />} />
-                    <Route path="/login" element={<Login />} />
+        <ThemeProvider>
+            <Router>
+                <PageLayout navbarProps={navbarProps} viewMode={viewMode}>
+                    <Routes>
+                        <Route path="/" element={<Home user={user} viewMode={viewMode} toggleViewMode={toggleViewMode} />} />
+                        <Route path="/signup" element={<Register />} />
+                        <Route path="/login" element={<Login />} />
 
-                    {/* Teacher Routes */}
-                    <Route path="/teach" element={<TeacherLanding />} />
-                    <Route path="/teacher-signup" element={<TeacherSignup />} />
-                    <Route path="/teacher/communication" element={<TeacherCommunication />} />
-                    <Route path="/teacher/assignments" element={<TeacherAssignments />} />
-                    <Route path="/teacher/announcements" element={<TeacherAnnouncements />} />
-                    <Route path="/teacher/courses" element={<TeacherCourses />} />
-                    <Route path="/teacher/create-course" element={<TeacherCreateCourse />} />
-                    <Route path="/teacher/courses/:slug" element={<ManageCourse />} />
+                        {/* Teacher Routes */}
+                        <Route path="/teach" element={<TeacherLanding />} />
+                        <Route path="/teacher-signup" element={<TeacherSignup />} />
+                        <Route path="/teacher/communication" element={<TeacherCommunication />} />
+                        <Route path="/teacher/assignments" element={<TeacherAssignments />} />
+                        <Route path="/teacher/announcements" element={<TeacherAnnouncements />} />
+                        <Route path="/teacher/courses" element={<TeacherCourses />} />
+                        <Route path="/teacher/create-course" element={<TeacherCreateCourse />} />
+                        <Route path="/teacher/courses/:slug" element={<ManageCourse />} />
 
-                    <Route path="/cart" element={<Cart />} />
-                    <Route path="/course/:slug" element={<CourseDetail />} />
-                    <Route path="/courses" element={<Courses />} />
-                    <Route path="/profile" element={<Profile />} />
+                        <Route path="/cart" element={<Cart />} />
+                        <Route path="/course/:slug" element={<CourseDetail />} />
+                        <Route path="/courses" element={<Courses />} />
+                        <Route path="/profile" element={<Profile />} />
+                        <Route path="/my-courses" element={<StudentCourses />} />
 
-                    <Route path="/live/:roomId" element={<LiveClass />} />
-                    {/* Add other routes as we build them */}
-                </Routes>
-            </PageLayout>
-        </Router>
+                        <Route path="/live/:roomId" element={<LiveClass />} />
+                        {/* Add other routes as we build them */}
+                    </Routes>
+                </PageLayout>
+            </Router>
+        </ThemeProvider>
     );
 }
 

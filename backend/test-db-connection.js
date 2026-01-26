@@ -2,22 +2,28 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import dns from 'dns';
+try {
+    dns.setServers(['8.8.8.8']);
+    console.log('Set specific DNS servers: 8.8.8.8');
+} catch (e) {
+    console.error('Failed to set DNS servers:', e);
+}
+
 if (dns.setDefaultResultOrder) {
     dns.setDefaultResultOrder('ipv4first');
 }
 
 dotenv.config();
 
-console.log('--- DNS DIAGNOSTICS ---');
-const hostname = 'dxdatabase.hcnspmi.mongodb.net';
-const srvRecord = `_mongodb._tcp.${hostname}`;
+console.log('--- DNS DIAGNOSTICS - A RECORD ---');
+const shardHost = 'ac-zt4tsqb-shard-00-00.hcnspmi.mongodb.net';
 
-console.log(`Resolving SRV for: ${srvRecord}`);
-dns.resolveSrv(srvRecord, (err, addresses) => {
+console.log(`Resolving A record for: ${shardHost}`);
+dns.resolve(shardHost, (err, addresses) => {
     if (err) {
-        console.error('DNS SRV Lookup FAILED:', err);
+        console.error('DNS A Lookup FAILED:', err);
     } else {
-        console.log('DNS SRV Lookup SUCCEEDED:', addresses);
+        console.log('DNS A Lookup SUCCEEDED:', addresses);
     }
 });
 

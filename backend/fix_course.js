@@ -8,6 +8,7 @@ const fixCourseStatus = async () => {
     await mongoose.connect(MONGODB_URI);
     console.log('Connected to DB');
 
+    
     const result = await Course.updateOne(
       { slug: 'data-science-by-dxcode' },
       { $set: { status: 'approved' } }

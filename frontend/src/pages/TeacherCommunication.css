@@ -1,3 +1,39 @@
+:root {
+    --bg-primary: #f9fafb;
+    --bg-card: #ffffff;
+    --bg-hover: #f3f4f6;
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
+    --border-color: #e5e7eb;
+    --accent-color: #4f46e5;
+    --accent-hover: #4338ca;
+
+    /* Playlist Specifics */
+    --playlist-gradient: linear-gradient(180deg, #f3f4f6 0%, #ffffff 100%);
+    --playlist-bg: #f9fafb;
+    --yt-row-hover: #f3f4f6;
+    --icon-btn-bg: rgba(0, 0, 0, 0.05);
+    --icon-btn-hover: rgba(0, 0, 0, 0.1);
+}
+
+.dark {
+    --bg-primary: #0f0f0f;
+    --bg-card: #18181b;
+    --bg-hover: #27272a;
+    --text-primary: #ffffff;
+    --text-secondary: #a1a1aa;
+    --border-color: #27272a;
+    --accent-color: #6366f1;
+    --accent-hover: #818cf8;
+
+    /* Playlist Specifics */
+    --playlist-gradient: linear-gradient(180deg, rgba(80, 80, 80, 0.2) 0%, rgba(15, 15, 15, 1) 100%);
+    --playlist-bg: #0f0f0f;
+    --yt-row-hover: #272727;
+    --icon-btn-bg: rgba(255, 255, 255, 0.1);
+    --icon-btn-hover: rgba(255, 255, 255, 0.2);
+}
+
 .teacher-comm-container {
     display: flex;
     min-height: 100vh;
@@ -281,7 +317,7 @@
 .tv-header h1 {
     font-size: 2rem;
     font-weight: 700;
-    color: #1f2937;
+    color: var(--text-primary);
     /* gray-800 */
 }
 
@@ -289,7 +325,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background-color: #4f46e5;
+    background-color: var(--accent-color);
     /* indigo-600 */
     color: white;
     padding: 0.75rem 1.5rem;
@@ -301,7 +337,7 @@
 }
 
 .tv-upload-btn:hover {
-    background-color: #4338ca;
+    background-color: var(--accent-hover);
     /* indigo-700 */
 }
 
@@ -327,8 +363,8 @@
 }
 
 .tv-nav {
-    background-color: white;
-    border: 1px solid #e5e7eb;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
     /* border-gray-200 */
     border-radius: 0.75rem;
     /* rounded-xl */
@@ -341,10 +377,10 @@
     justify-content: space-between;
     padding: 1rem;
     /* p-4 */
-    color: #374151;
+    color: var(--text-primary);
     /* text-gray-700 */
     text-decoration: none;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--border-color);
     /* divide-y */
     transition: background-color 0.2s;
     cursor: pointer;
@@ -355,14 +391,14 @@
 }
 
 .tv-item:hover {
-    background-color: #f9fafb;
+    background-color: var(--bg-hover);
     /* hover:bg-gray-50 */
-    color: #374151;
+    color: var(--text-primary);
     /* hover:text-gray-700 */
 }
 
 .tv-item:active {
-    background-color: white;
+    background-color: var(--bg-card);
 }
 
 .tv-item-content {
@@ -428,14 +464,14 @@
     font-size: 0.875rem;
     /* text-sm */
     font-weight: 600;
-    color: #1f2937;
+    color: var(--text-primary);
 }
 
 .tv-info p:last-child {
     font-size: 0.875rem;
     /* text-sm */
     font-weight: 500;
-    color: #6b7280;
+    color: var(--text-secondary);
     /* text-gray-500 */
 }
 
@@ -465,7 +501,7 @@
 }
 
 .modal-content {
-    background-color: white;
+    background-color: var(--bg-card);
     padding: 2rem;
     border-radius: 1rem;
     width: 100%;
@@ -481,6 +517,7 @@
     font-size: 1.5rem;
     font-weight: 700;
     margin: 0;
+    color: var(--text-primary);
 }
 
 .form-field {
@@ -491,15 +528,17 @@
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
-    color: #374151;
+    color: var(--text-primary);
 }
 
 .form-field input,
 .form-field select {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid #d1d5db;
+    border: 1px solid var(--border-color);
     border-radius: 0.5rem;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
 }
 
 .modal-actions {
@@ -511,7 +550,7 @@
 
 .btn-cancel {
     padding: 0.75rem 1.5rem;
-    color: #374151;
+    color: var(--text-primary);
     font-weight: 500;
     cursor: pointer;
     background: none;
@@ -520,7 +559,7 @@
 
 .btn-submit {
     padding: 0.75rem 1.5rem;
-    background-color: #4f46e5;
+    background-color: var(--accent-color);
     color: white;
     border-radius: 0.5rem;
     font-weight: 600;
@@ -559,12 +598,12 @@
     top: 120%;
     right: 0;
     width: 200px;
-    background: white;
+    background: var(--bg-card);
     border-radius: 12px;
     padding: 8px 0;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     z-index: 1001;
-    border: 1px solid #eee;
+    border: 1px solid var(--border-color);
 }
 
 .manage-dropdown-item {
@@ -572,7 +611,7 @@
     align-items: center;
     gap: 12px;
     padding: 10px 16px;
-    color: #333;
+    color: var(--text-primary);
     text-decoration: none;
     transition: background 0.2s;
     font-size: 0.95rem;
@@ -585,11 +624,11 @@
 }
 
 .manage-dropdown-item:hover {
-    background-color: #f5f5f5;
+    background-color: var(--bg-hover);
 }
 
 /* -------------------------------------------------------------------------- */
-/* YOUTUBE PLAYLIST STYLE REDESIGN (DARK THEME)                               */
+/* YOUTUBE PLAYLIST STYLE REDESIGN (THEME VARIABLES)                          */
 /* -------------------------------------------------------------------------- */
 
 /* Playlist Page Layout */
@@ -598,7 +637,8 @@
     flex-direction: row;
     height: 100%;
     overflow: hidden;
-    background-color: #0f0f0f;
+    background-color: var(--playlist-bg);
+    /* Theme Background */
     width: 100%;
 }
 
@@ -608,12 +648,13 @@
     min-width: 360px;
     /* Prevent shrinking */
     padding: 24px;
-    background: linear-gradient(180deg, rgba(80, 80, 80, 0.2) 0%, rgba(15, 15, 15, 1) 100%);
+    background: var(--playlist-gradient);
+    /* Theme Gradient */
     display: flex;
     flex-direction: column;
     gap: 16px;
     overflow-y: auto;
-    /* Sticky behavior handled by parent height */
+    border-right: 1px solid var(--border-color);
 }
 
 .playlist-cover-container {
@@ -621,7 +662,7 @@
     aspect-ratio: 16/9;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .playlist-cover-img {
@@ -635,7 +676,8 @@
     font-weight: 700;
     margin: 0;
     font-family: 'Roboto', sans-serif;
-    color: white;
+    color: var(--text-primary);
+    /* Theme Text */
 }
 
 .playlist-stats {
@@ -647,12 +689,13 @@
 .playlist-author {
     font-size: 1rem;
     font-weight: 600;
-    color: white;
+    color: var(--text-primary);
+    /* Theme Text */
 }
 
 .playlist-meta {
     font-size: 0.8rem;
-    color: #aaa;
+    color: var(--text-secondary);
     display: flex;
     gap: 4px;
     flex-wrap: wrap;
@@ -660,7 +703,7 @@
 
 .playlist-description {
     font-size: 0.9rem;
-    color: #ccc;
+    color: var(--text-secondary);
     line-height: 1.4;
 }
 
@@ -674,8 +717,10 @@
 /* Primary Create Button (Styled as Play All) */
 /* Replaces .playlist-play-btn in JS usage for correct styling reference */
 .playlist-play-btn {
-    background-color: white;
-    color: black;
+    background-color: var(--text-primary);
+    /* Inverse background */
+    color: var(--bg-primary);
+    /* Inverse text */
     border: none;
     border-radius: 20px;
     padding: 10px 24px;
@@ -691,12 +736,12 @@
 }
 
 .playlist-play-btn:hover {
-    background-color: #e0e0e0;
+    background-color: var(--text-secondary);
 }
 
 /* Icon Buttons */
 .playlist-icon-btn {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--icon-btn-bg);
     border: none;
     border-radius: 50%;
     width: 40px;
@@ -704,13 +749,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--text-primary);
     cursor: pointer;
     transition: background 0.2s;
 }
 
 .playlist-icon-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--icon-btn-hover);
 }
 
 /* Right Content - Video List */
@@ -719,7 +764,8 @@
     padding: 24px 24px 100px 24px;
     /* Bottom padding for scroll */
     overflow-y: auto;
-    background-color: #0f0f0f;
+    background-color: var(--bg-primary);
+    /* Theme Background */
 }
 
 .sections-list-dark {
@@ -733,13 +779,14 @@
 }
 
 .section-header-dark {
-    color: white;
+    color: var(--text-primary);
+    /* Theme Text */
     padding: 12px 0;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .section-content-dark {
@@ -747,7 +794,7 @@
     flex-direction: column;
 }
 
-/* Update YT Video Row for Dark Mode */
+/* Update YT Video Row for Theme Mode */
 .yt-video-row.dark-mode {
     border-radius: 12px;
     padding: 12px;
@@ -759,7 +806,8 @@
 }
 
 .yt-video-row.dark-mode:hover {
-    background-color: #272727;
+    background-color: var(--yt-row-hover);
+    /* Theme Hover */
 }
 
 .yt-video-row .yt-thumbnail-container {
@@ -767,10 +815,11 @@
     width: 160px;
     height: 90px;
     border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .yt-index.dark-text {
-    color: #aaa;
+    color: var(--text-secondary);
     font-size: 0.9rem;
     font-weight: 500;
     min-width: 20px;
@@ -778,26 +827,27 @@
 }
 
 .yt-video-title.dark-text {
-    color: white;
+    color: var(--text-primary);
+    /* Theme Text */
     font-size: 1rem;
     font-weight: 600;
     margin: 0;
 }
 
 .yt-video-meta.dark-meta {
-    color: #aaa;
+    color: var(--text-secondary);
     font-size: 0.85rem;
 }
 
 .yt-action-btn.dark-btn {
-    color: white;
+    color: var(--text-primary);
     background: transparent;
     border: none;
     padding: 8px;
 }
 
 .yt-action-btn.dark-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--icon-btn-bg);
     border-radius: 50%;
 }
 
@@ -805,20 +855,21 @@
     margin-top: 10px;
     width: 100%;
     padding: 10px;
-    background-color: transparent;
-    border: 1px dashed #444;
+    border: 1px dashed var(--border-color);
     border-radius: 8px;
-    color: #aaa;
+    background: transparent;
+    color: var(--text-secondary);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
+    font-size: 0.9rem;
     transition: all 0.2s;
 }
 
 .add-video-btn-dark:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-    color: white;
-    border-color: #666;
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    background-color: var(--bg-hover);
 }
