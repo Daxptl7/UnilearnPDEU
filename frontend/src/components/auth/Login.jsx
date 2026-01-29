@@ -52,63 +52,93 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <div className="login-box">
-                <div className="login-content">
-                    {/* Header */}
-                    <div className="login-header">
-                        <h1 className="login-title">Welcome back</h1>
-                        <p className="login-subtitle">Please sign in to your account</p>
+            <div className="login-split-card">
+                {/* Left Side - Image */}
+                <div className="login-image-section">
+                    <div className="image-overlay">
+                        <div className="overlay-content">
+                            <h2>Pandit Deendayal Energy University</h2>
+                            <p>Empowering the future through digital education and research.</p>
+                        </div>
                     </div>
+                </div>
 
-                    {/* Form Section */}
-                    <div className="login-form-wrapper">
-                        {error && <div className="error-msg">{error}</div>}
+                {/* Right Side - Form */}
+                <div className="login-form-section">
+                    <div className="login-content">
+                        {/* Header */}
+                        <div className="login-header">
+                            <h1 className="login-title">Hi Student</h1>
+                            <p className="login-subtitle">Welcome to UniLearn</p>
+                        </div>
 
-                        <form onSubmit={handleSubmit} className="login-form">
-                            <div className="input-group">
-                                <div className="form-field">
-                                    <label htmlFor="email">Email</label>
-                                    <input
-                                        id="email"
-                                        type="email"
-                                        name="email"
-                                        className="form-input"
-                                        placeholder="Enter your email"
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                        required
-                                        disabled={loading}
-                                    />
+                        {/* Form Section */}
+                        <div className="login-form-wrapper">
+                            {error && <div className="error-msg">{error}</div>}
+
+                            <form onSubmit={handleSubmit} className="login-form">
+                                <div className="input-group">
+                                    <div className="form-field">
+                                        <label htmlFor="email">Email</label>
+                                        <input
+                                            id="email"
+                                            type="email"
+                                            name="email"
+                                            className="form-input"
+                                            placeholder="Enter your email"
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            required
+                                            disabled={loading}
+                                        />
+                                    </div>
+
+                                    <div className="form-field">
+                                        <label htmlFor="password">Password</label>
+                                        <input
+                                            id="password"
+                                            type="password"
+                                            name="password"
+                                            className="form-input"
+                                            placeholder="Enter your password"
+                                            value={formData.password}
+                                            onChange={handleChange}
+                                            required
+                                            disabled={loading}
+                                        />
+                                        <div className="forgot-password">
+                                            <Link to="/forgot-password">Forgot password?</Link>
+                                        </div>
+                                    </div>
                                 </div>
-
-                                <div className="form-field">
-                                    <label htmlFor="password">Password</label>
-                                    <input
-                                        id="password"
-                                        type="password"
-                                        name="password"
-                                        className="form-input"
-                                        placeholder="Enter your password"
-                                        value={formData.password}
-                                        onChange={handleChange}
-                                        required
-                                        disabled={loading}
-                                    />
+                                <div className="divider">
+                                    <span>or</span>
                                 </div>
+                                <button type="button" className="google-login-btn">
+                                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="18" height="18" />
+                                    Login with Google
+                                </button>
+                                <button type="submit" className="login-submit-btn" disabled={loading}>
+                                    {loading ? 'Signing in...' : 'Login'}
+                                </button>
+                            </form>
+
+                            <div className="signup-text">
+                                <p>
+                                    Don't have an account?{' '}
+                                    <Link to="/signup" className="signup-link">
+                                        Sign up
+                                    </Link>
+                                </p>
                             </div>
 
-                            <button type="submit" className="login-submit-btn" disabled={loading}>
-                                {loading ? 'Signing in...' : 'Sign In'}
-                            </button>
-                        </form>
-
-                        <div className="signup-text">
-                            <p>
-                                Don't have an account yet?{' '}
-                                <Link to="/register" className="signup-link">
-                                    Create account
-                                </Link>
-                            </p>
+                            {/* Social Icons */}
+                            <div className="social-icons">
+                                <a href="#" className="social-icon"><i className="fab fa-facebook-f"></i></a>
+                                <a href="#" className="social-icon"><i className="fab fa-twitter"></i></a>
+                                <a href="#" className="social-icon"><i className="fab fa-linkedin-in"></i></a>
+                                <a href="#" className="social-icon"><i className="fab fa-instagram"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>

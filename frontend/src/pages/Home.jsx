@@ -4,14 +4,16 @@ import TeacherDashboard from './TeacherDashboard';
 import './Home.css';
 
 const Home = ({ user, viewMode, toggleViewMode }) => {
+    // State declarations
+    const [recommended, setRecommended] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [opacity, setOpacity] = useState(0.3);
+
     // Teacher View Handler
     if (user?.role === 'teacher' && viewMode === 'teacher') {
         return <TeacherDashboard toggleViewMode={toggleViewMode} />;
     }
 
-    // Recommended Courses Logic
-    const [recommended, setRecommended] = useState([]);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const loadCourses = async () => {
@@ -41,7 +43,6 @@ const Home = ({ user, viewMode, toggleViewMode }) => {
     }, []);
 
     // Scroll Opacity Effect
-    const [opacity, setOpacity] = useState(0.3);
     useEffect(() => {
         const handleScroll = () => {
             const scrollFactor = Math.min(window.scrollY / 2000, 0.2);

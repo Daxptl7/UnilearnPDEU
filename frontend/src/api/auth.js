@@ -22,7 +22,18 @@ export const login = async (credentials) => {
 
 // Get current user
 export const getCurrentUser = async () => {
-  const response = await api.get('/auth/me');
+    const response = await api.get('/auth/me');
+    return response.data;
+};
+// Update user details
+export const updateDetails = async (data) => {
+  const response = await api.put('/auth/update-details', data);
+  if (response.data.success) {
+      // Update local storage if needed, though usually we rely on "me" check or explicit refresh
+      const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+      const updatedUser = { ...currentUser, ...response.data.data };
+      localStorage.setItem('user', JSON.stringify(updatedUser)); 
+  }
   return response.data;
 };
 

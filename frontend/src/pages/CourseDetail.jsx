@@ -219,9 +219,17 @@ const CourseDetail = () => {
                     <div className="main-video-player">
                         {videoSource ? (
                             <iframe
-                                src={videoSource}
+                                src={(function (url) {
+                                    if (!url) return '';
+                                    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+                                    const match = url.match(regExp);
+                                    return (match && match[2].length === 11)
+                                        ? 'https://www.youtube.com/embed/' + match[2]
+                                        : url;
+                                })(videoSource)}
                                 title={activeTitle}
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerPolicy="strict-origin-when-cross-origin"
                                 allowFullScreen
                             ></iframe>
                         ) : (

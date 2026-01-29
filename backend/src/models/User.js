@@ -62,6 +62,11 @@ const userSchema = new mongoose.Schema({
   school: {
     type: String,
     default: ''
+  },
+  socialLinks: {
+    linkedin: { type: String, default: '' },
+    github: { type: String, default: '' },
+    instagram: { type: String, default: '' }
   }
 });
 

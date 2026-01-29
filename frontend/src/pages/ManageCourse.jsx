@@ -16,6 +16,7 @@ const ManageCourse = () => {
     const [course, setCourse] = useState(null);
     const [loading, setLoading] = useState(true);
     const [expandedSections, setExpandedSections] = useState({});
+    const [previewLecture, setPreviewLecture] = useState(null);
 
     // Dropdown state
     const [manageDropdownOpen, setManageDropdownOpen] = useState(false);
@@ -232,7 +233,7 @@ const ManageCourse = () => {
                                                 <div
                                                     key={lecture._id}
                                                     className="yt-video-row dark-mode"
-                                                    onClick={() => window.open(lecture.videoUrl || '#', '_blank')}
+                                                    onClick={() => setPreviewLecture(lecture)}
                                                 >
                                                     <div className="yt-index dark-text">{lIndex + 1}</div>
 
@@ -275,6 +276,40 @@ const ManageCourse = () => {
                 </div>
 
                 {/* Modals */}
+                {previewLecture && (
+                    <div className="modal-overlay" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.85)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }} onClick={() => setPreviewLecture(null)}>
+                        <div className="modal-content" style={{ background: 'black', padding: '0', borderRadius: '12px', width: '800px', maxWidth: '90vw', overflow: 'hidden', position: 'relative' }} onClick={e => e.stopPropagation()}>
+                            <button
+                                onClick={() => setPreviewLecture(null)}
+                                style={{ position: 'absolute', top: '10px', right: '10px', background: 'rgba(0,0,0,0.5)', border: 'none', color: 'white', borderRadius: '50%', width: '30px', height: '30px', cursor: 'pointer', zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                            >
+                                ×
+                            </button>
+                            <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
+                                <iframe
+                                    src={(function (url) {
+                                        if (!url) return '';
+                                        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+                                        const match = url.match(regExp);
+                                        return (match && match[2].length === 11)
+                                            ? 'https://www.youtube.com/embed/' + match[2]
+                                            : url;
+                                    })(previewLecture.videoUrl)}
+                                    title={previewLecture.title}
+                                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    referrerPolicy="strict-origin-when-cross-origin"
+                                    allowFullScreen
+                                ></iframe>
+                            </div>
+                            <div style={{ padding: '20px', background: 'var(--bg-card)', color: 'var(--text-primary)' }}>
+                                <h3 style={{ margin: '0 0 10px 0' }}>{previewLecture.title}</h3>
+                                <p style={{ margin: 0, fontSize: '14px', opacity: 0.8 }}>{previewLecture.description}</p>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {showSectionModal && (
                     <div className="modal-overlay" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000 }}>
                         <div className="modal-content" style={{ background: 'var(--bg-card)', padding: '25px', borderRadius: '12px', width: '400px' }}>

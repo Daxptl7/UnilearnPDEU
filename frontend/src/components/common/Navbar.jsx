@@ -50,35 +50,26 @@ const Navbar = ({ user, toggleLogin, viewMode, toggleViewMode }) => {
     const navClass = isTransparent ? 'transparent' : 'scrolled';
 
     return (
-        <header className={`headerContainer ${navClass} dark:bg-gray-900 dark:border-b dark:border-gray-800`}>
+        <header className={`headerContainer ${navClass}`}>
             <div className="nav-container">
                 {/* Logo Section */}
                 <Link to="/" className="logoGroup">
                     <img src="/logo.png" alt="PDEU Logo" style={{ height: '80px', width: 'auto' }} />
                 </Link>
 
-                {/* Dark Mode Toggle */}
-                <button
-                    onClick={toggleTheme}
-                    className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors mr-4"
-                    aria-label="Toggle Dark Mode"
-                >
-                    {theme === 'dark' ? <Sun size={20} className="text-yellow-500" /> : <Moon size={20} className="text-gray-700 dark:text-gray-300" />}
-                </button>
-
                 {/* Hamburger for Mobile */}
-                <button className="hamburger dark:text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+                <button className="hamburger" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
                     <span className="bar"></span>
                     <span className="bar"></span>
                     <span className="bar"></span>
                 </button>
 
                 {/* Menu */}
-                <ul className={`menu ${mobileMenuOpen ? 'show' : ''} dark:bg-gray-900`}>
+                <ul className={`menu ${mobileMenuOpen ? 'show' : ''}`}>
                     <li>
                         <Link
                             to="/"
-                            className="menuLink dark:text-gray-300 dark:hover:text-white"
+                            className="menuLink"
                             onClick={() => {
                                 if (viewMode === 'teacher') toggleViewMode();
                             }}
@@ -86,7 +77,7 @@ const Navbar = ({ user, toggleLogin, viewMode, toggleViewMode }) => {
                             Home
                         </Link>
                     </li>
-                    <li><Link to="/courses" className="menuLink dark:text-gray-300 dark:hover:text-white">Courses</Link></li>
+                    <li><Link to="/courses" className="menuLink">Courses</Link></li>
 
                     {user ? (
                         <>
@@ -104,7 +95,7 @@ const Navbar = ({ user, toggleLogin, viewMode, toggleViewMode }) => {
                                                     navigate('/');
                                                 }
                                             }}
-                                            className="menuLink dark:text-gray-300 dark:hover:text-white"
+                                            className="menuLink"
                                             style={{ cursor: 'pointer' }}
                                         >
                                             {viewMode === 'teacher' ? 'Switch to Student' : 'Switch to Teacher'}
@@ -112,23 +103,23 @@ const Navbar = ({ user, toggleLogin, viewMode, toggleViewMode }) => {
                                     </li>
                                 </>
                             )}
-                            <li><Link to="/profile" className="menuLink dark:text-gray-300 dark:hover:text-white">Profile</Link></li>
+                            <li><Link to="/profile" className="menuLink">Profile</Link></li>
                             {user.role === 'teacher' && viewMode === 'teacher' ? (
-                                <li><Link to="/teacher/courses" className="menuLink dark:text-gray-300 dark:hover:text-white">Dashboard</Link></li>
+                                <li><Link to="/teacher/courses" className="menuLink">Dashboard</Link></li>
                             ) : (
                                 <>
-                                    <li><Link to="/my-courses" className="menuLink dark:text-gray-300 dark:hover:text-white">My Courses</Link></li>
-                                    <li><Link to="/cart" className="menuLink dark:text-gray-300 dark:hover:text-white">My Cart</Link></li>
+                                    <li><Link to="/my-courses" className="menuLink">My Courses</Link></li>
+                                    <li><Link to="/cart" className="menuLink">My Cart</Link></li>
                                 </>
                             )}
                             <li>
-                                <button onClick={handleLogout} className="auth-btn dark:bg-red-600 dark:text-white">Logout</button>
+                                <button onClick={handleLogout} className="auth-btn">Logout</button>
                             </li>
                         </>
                     ) : (
                         <>
-                            <li><Link to="/login" className="menuLink dark:text-gray-300 dark:hover:text-white">Login</Link></li>
-                            <li><Link to="/signup" className="auth-btn dark:bg-indigo-600 dark:text-white">Sign Up</Link></li>
+                            <li><Link to="/login" className="menuLink">Login</Link></li>
+                            <li><Link to="/signup" className="auth-btn">Sign Up</Link></li>
                         </>
                     )}
                 </ul>

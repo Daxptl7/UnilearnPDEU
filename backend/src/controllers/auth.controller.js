@@ -180,7 +180,34 @@ export const verifyOtpRegister = async (req, res) => {
       token
     }, 'User registered successfully');
   } catch (error) {
-    console.error('Verify OTP Register error:', error);
+    sendError(res, 500, error.message);
+  }
+};
+
+// @desc    Update user details
+// @route   PUT /api/auth/update-details
+// @access  Private
+export const updateDetails = async (req, res) => {
+  try {
+    const fieldsToUpdate = {
+        name: req.body.name,
+        email: req.body.email, // Allow email update? Usually requires verify. Let's allow for now as per "changeable".
+        phone: req.body.phone,
+        address: req.body.address,
+        school: req.body.school,
+        socialLinks: req.body.socialLinks
+    };
+
+    // Remove undefined fields
+    Object.keys(fieldsToUpdate).forEach(key => fieldsToUpdate[key] === undefined && delete fieldsToUpdate[key]);
+
+    const user = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
+      new: true,
+      runValidators: true
+    });
+
+    sendSuccess(res, 200, user, 'Profile updated successfully');
+  } catch (error) {
     sendError(res, 500, error.message);
   }
 };
