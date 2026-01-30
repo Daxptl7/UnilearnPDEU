@@ -90,14 +90,18 @@ const CourseDetail = () => {
             let totalLectures = 0;
             let completedLectures = 0;
 
-            course.parts.forEach(part => {
-                part.lectures.forEach(lecture => {
-                    totalLectures++;
-                    if (progressMap[lecture._id]) {
-                        completedLectures++;
+            if (course.parts && Array.isArray(course.parts)) {
+                course.parts.forEach(part => {
+                    if (part.lectures && Array.isArray(part.lectures)) {
+                        part.lectures.forEach(lecture => {
+                            totalLectures++;
+                            if (progressMap[lecture._id]) {
+                                completedLectures++;
+                            }
+                        });
                     }
                 });
-            });
+            }
 
             const percent = totalLectures === 0 ? 0 : Math.round((completedLectures / totalLectures) * 100);
             setCourseProgress(percent);
@@ -203,7 +207,7 @@ const CourseDetail = () => {
         );
     }
 
-    const similarCourses = getSimilarCourses(course.id);
+    const similarCourses = getSimilarCourses(course.id || course._id);
     const videoSource = currentLecture ? currentLecture.videoUrl : course.videoPreview;
     const activeTitle = currentLecture ? currentLecture.title : course.name + " (Preview)";
 
@@ -220,7 +224,7 @@ const CourseDetail = () => {
                         {videoSource ? (
                             <iframe
                                 src={(function (url) {
-                                    if (!url) return '';
+                                    if (!url || typeof url !== 'string') return '';
                                     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
                                     const match = url.match(regExp);
                                     return (match && match[2].length === 11)
@@ -306,7 +310,7 @@ const CourseDetail = () => {
                             <strong>Duration:</strong> {course.stats?.totalHours}h
                         </div>
 
-                        {course.whatYouLearn && (
+                        {course.whatYouLearn && Array.isArray(course.whatYouLearn) && (
                             <div style={{ marginTop: '1rem' }}>
                                 <strong>What you'll learn:</strong>
                                 <ul style={{ paddingLeft: '1.2rem', marginTop: '0.5rem' }}>
@@ -333,7 +337,7 @@ const CourseDetail = () => {
 
                     {/* Lectures List */}
                     <div className="parts-list">
-                        {course.parts && course.parts.map((part) => (
+                        {course.parts && Array.isArray(course.parts) && course.parts.map((part) => (
                             <div key={part._id || part.order} className="part-section">
                                 <div className="part-header" onClick={() => togglePart(part._id || part.order)}>
                                     <span>{part.title}</span>

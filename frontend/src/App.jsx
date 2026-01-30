@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { useAuth } from './context/AuthContext';
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
+import ErrorBoundary from './components/common/ErrorBoundary';
 import Home from './pages/Home';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
@@ -63,34 +64,36 @@ function App() {
 
     return (
         <ThemeProvider>
-            <Router>
-                <PageLayout navbarProps={navbarProps} viewMode={viewMode}>
-                    <Routes>
-                        <Route path="/" element={<Home user={user} viewMode={viewMode} toggleViewMode={toggleViewMode} />} />
-                        <Route path="/signup" element={<Register />} />
-                        <Route path="/login" element={<Login />} />
+            <ErrorBoundary>
+                <Router>
+                    <PageLayout navbarProps={navbarProps} viewMode={viewMode}>
+                        <Routes>
+                            <Route path="/" element={<Home user={user} viewMode={viewMode} toggleViewMode={toggleViewMode} />} />
+                            <Route path="/signup" element={<Register />} />
+                            <Route path="/login" element={<Login />} />
 
-                        {/* Teacher Routes */}
-                        <Route path="/teach" element={<TeacherLanding />} />
-                        <Route path="/teacher-signup" element={<TeacherSignup />} />
-                        <Route path="/teacher/communication" element={<TeacherCommunication />} />
-                        <Route path="/teacher/assignments" element={<TeacherAssignments />} />
-                        <Route path="/teacher/announcements" element={<TeacherAnnouncements />} />
-                        <Route path="/teacher/courses" element={<TeacherCourses />} />
-                        <Route path="/teacher/create-course" element={<TeacherCreateCourse />} />
-                        <Route path="/teacher/courses/:slug" element={<ManageCourse />} />
+                            {/* Teacher Routes */}
+                            <Route path="/teach" element={<TeacherLanding />} />
+                            <Route path="/teacher-signup" element={<TeacherSignup />} />
+                            <Route path="/teacher/communication" element={<TeacherCommunication />} />
+                            <Route path="/teacher/assignments" element={<TeacherAssignments />} />
+                            <Route path="/teacher/announcements" element={<TeacherAnnouncements />} />
+                            <Route path="/teacher/courses" element={<TeacherCourses />} />
+                            <Route path="/teacher/create-course" element={<TeacherCreateCourse />} />
+                            <Route path="/teacher/courses/:slug" element={<ManageCourse />} />
 
-                        <Route path="/cart" element={<Cart />} />
-                        <Route path="/course/:slug" element={<CourseDetail />} />
-                        <Route path="/courses" element={<Courses />} />
-                        <Route path="/profile" element={<Profile />} />
-                        <Route path="/my-courses" element={<StudentCourses />} />
+                            <Route path="/cart" element={<Cart />} />
+                            <Route path="/course/:slug" element={<CourseDetail />} />
+                            <Route path="/courses" element={<Courses />} />
+                            <Route path="/profile" element={<Profile />} />
+                            <Route path="/my-courses" element={<StudentCourses />} />
 
-                        <Route path="/live/:roomId" element={<LiveClass />} />
-                        {/* Add other routes as we build them */}
-                    </Routes>
-                </PageLayout>
-            </Router>
+                            <Route path="/live/:roomId" element={<LiveClass />} />
+                            {/* Add other routes as we build them */}
+                        </Routes>
+                    </PageLayout>
+                </Router>
+            </ErrorBoundary>
         </ThemeProvider>
     );
 }

@@ -59,24 +59,27 @@ const TeacherCourses = () => {
                             </div>
                         ) : (
                             <div className="courses-grid-wrapper">
-                                {courses.map(course => (
-                                    <Link to={`/teacher/courses/${course.slug}`} key={course._id} className="t-course-card">
-                                        <div className="t-course-thumb" style={{ backgroundImage: `url(${course.thumbnail || '/placeholder-course.jpg'})` }}>
-                                            <span className="t-course-status">{course.status || 'Active'}</span>
-                                        </div>
-                                        <div className="t-course-info">
-                                            <h3 className="t-course-title">{course.name}</h3>
-                                            <div className="t-course-meta">
-                                                <span className="meta-item"><Users size={14} /> {course.stats?.students || 0} Students</span>
-                                                <span className="meta-item"><Clock size={14} /> {course.duration || 'Flexible'}</span>
+                                {courses.map(course => {
+                                    if (!course) return null; // Skip invalid course objects
+                                    return (
+                                        <Link to={`/teacher/courses/${course.slug || ''}`} key={course._id || Math.random()} className="t-course-card">
+                                            <div className="t-course-thumb" style={{ backgroundImage: `url(${course.thumbnail || '/placeholder-course.jpg'})` }}>
+                                                <span className="t-course-status">{course.status || 'Active'}</span>
                                             </div>
-                                            <div className="t-course-footer">
-                                                <span className="t-price">{course.price > 0 ? `₹${course.price}` : 'Free'}</span>
-                                                <span className="edit-text">Manage Course →</span>
+                                            <div className="t-course-info">
+                                                <h3 className="t-course-title">{course.name || 'Untitled Course'}</h3>
+                                                <div className="t-course-meta">
+                                                    <span className="meta-item"><Users size={14} /> {course.stats?.students || 0} Students</span>
+                                                    <span className="meta-item"><Clock size={14} /> {course.duration || 'Flexible'}</span>
+                                                </div>
+                                                <div className="t-course-footer">
+                                                    <span className="t-price">{course.price > 0 ? `₹${course.price}` : 'Free'}</span>
+                                                    <span className="edit-text">Manage Course →</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </Link>
-                                ))}
+                                        </Link>
+                                    );
+                                })}
                             </div>
                         )}
                     </div>

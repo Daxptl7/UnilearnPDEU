@@ -34,8 +34,13 @@ const Courses = () => {
     const filteredCourses = courses.filter(course => {
         // 1. School Restriction Logic
         if (user && user.role === 'student' && user.school) {
-            if (course.category !== user.school) {
-                return false; // Hide course if it currently belongs to broken school
+            // Check if course has a category and it matches user school
+            // If course has no category, we might want to default hide or show. Here assuming if category exists checking it.
+            // Safe check: ensure course.category exists before comparing if strictly required, otherwise lenient.
+            if (course.category && course.category !== user.school) {
+                // Debug log for hidden courses
+                console.log(`Hiding course "${course.name}" (Category: ${course.category}) due to school mismatch (User School: ${user.school})`);
+                return false;
             }
         }
 
@@ -43,8 +48,13 @@ const Courses = () => {
         const matchesFilter = activeFilter === 'All' || course.category === activeFilter;
 
         // 3. Search Logic
-        const matchesSearch = course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            (course.whatYouLearn && course.whatYouLearn.some(w => w.toLowerCase().includes(searchTerm.toLowerCase())));
+        const nameMatch = course.name ? course.name.toLowerCase().includes(searchTerm.toLowerCase()) : false;
+
+        const whatYouLearnMatch = Array.isArray(course.whatYouLearn)
+            ? course.whatYouLearn.some(w => w && typeof w === 'string' && w.toLowerCase().includes(searchTerm.toLowerCase()))
+            : false;
+
+        const matchesSearch = nameMatch || whatYouLearnMatch;
 
         return matchesFilter && matchesSearch;
     });
