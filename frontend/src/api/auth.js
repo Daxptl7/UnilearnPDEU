@@ -27,7 +27,10 @@ export const getCurrentUser = async () => {
 };
 // Update user details
 export const updateDetails = async (data) => {
-  const response = await api.put('/auth/update-details', data);
+  const isFormData = data instanceof FormData;
+  const config = isFormData ? { headers: { 'Content-Type': 'multipart/form-data' } } : {};
+  
+  const response = await api.put('/auth/update-details', data, config);
   if (response.data.success) {
       // Update local storage if needed, though usually we rely on "me" check or explicit refresh
       const currentUser = JSON.parse(localStorage.getItem('user') || '{}');

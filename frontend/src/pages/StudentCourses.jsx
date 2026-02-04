@@ -2,12 +2,14 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { fetchMyCourses } from '../api/student.api';
-import { Play, Video, Clock, BookOpen, ChevronRight, Hash } from 'lucide-react';
+import { getUnreadCounts } from '../api/announcement.api';
+import { Play, Video, Clock, BookOpen, ChevronRight, Hash, Bell } from 'lucide-react';
 import { io } from 'socket.io-client';
 import { config } from '../config';
 
 const StudentCourses = () => {
     const [courses, setCourses] = useState([]);
+    const [unreadCounts, setUnreadCounts] = useState({});
     const [loading, setLoading] = useState(true);
     const [showJoinModal, setShowJoinModal] = useState(false);
     const [joinCode, setJoinCode] = useState('');
@@ -22,6 +24,15 @@ const StudentCourses = () => {
                 const response = await fetchMyCourses();
                 if (response.success) {
                     setCourses(response.data);
+
+                    // Fetch unread counts
+                    const courseIds = response.data.map(c => c._id);
+                    if (courseIds.length > 0) {
+                        const countRes = await getUnreadCounts(courseIds);
+                        if (countRes.success) {
+                            setUnreadCounts(countRes.data);
+                        }
+                    }
                 }
             } catch (error) {
                 console.error("Failed to fetch courses", error);
@@ -113,51 +124,61 @@ const StudentCourses = () => {
                                             Continue <ChevronRight size={14} />
                                         </button>
                                     </div>
+
+                                    {unreadCounts[course._id] > 0 && (
+                                        <div className="flex items-center gap-1 mt-2 text-amber-600 text-xs font-semibold">
+                                            <Bell size={14} fill="currentColor" />
+                                            {unreadCounts[course._id]} New Announcement{unreadCounts[course._id] > 1 ? 's' : ''}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         ))}
                     </div>
-                )}
-            </div>
+                )
+                }
+            </div >
 
             {/* Join Modal */}
-            {showJoinModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-                    <div className="bg-white p-8 rounded-2xl w-full max-w-md shadow-2xl relative animate-in fade-in zoom-in duration-200">
-                        <button onClick={() => setShowJoinModal(false)} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600">✕</button>
+            {
+                showJoinModal && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                        <div className="bg-white p-8 rounded-2xl w-full max-w-md shadow-2xl relative animate-in fade-in zoom-in duration-200">
+                            <button onClick={() => setShowJoinModal(false)} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600">✕</button>
 
-                        <div className="text-center mb-8">
-                            <div className="w-16 h-16 bg-red-50 rounded-2xl mx-auto flex items-center justify-center mb-4">
-                                <Video size={32} className="text-red-600" />
-                            </div>
-                            <h2 className="text-2xl font-bold text-gray-900">Join Live Session</h2>
-                            <p className="text-gray-500 text-sm mt-2">Enter the code shared by your instructor</p>
-                        </div>
-
-                        <form onSubmit={handleJoinLive}>
-                            <div className="mb-6 relative">
-                                <label className="block text-xs font-medium text-gray-700 uppercase tracking-wider mb-2">Meeting Code</label>
-                                <div className="relative">
-                                    <Hash size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                                    <input
-                                        type="text"
-                                        value={joinCode}
-                                        onChange={(e) => setJoinCode(e.target.value)}
-                                        placeholder="e.g. 8a2f-..."
-                                        className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-10 pr-4 text-gray-900 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all font-mono"
-                                        required
-                                    />
+                            <div className="text-center mb-8">
+                                <div className="w-16 h-16 bg-red-50 rounded-2xl mx-auto flex items-center justify-center mb-4">
+                                    <Video size={32} className="text-red-600" />
                                 </div>
+                                <h2 className="text-2xl font-bold text-gray-900">Join Live Session</h2>
+                                <p className="text-gray-500 text-sm mt-2">Enter the code shared by your instructor</p>
                             </div>
 
-                            <button type="submit" className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 rounded-xl font-bold text-white shadow-lg shadow-indigo-500/20 transition-all">
-                                Join Now
-                            </button>
-                        </form>
+                            <form onSubmit={handleJoinLive}>
+                                <div className="mb-6 relative">
+                                    <label className="block text-xs font-medium text-gray-700 uppercase tracking-wider mb-2">Meeting Code</label>
+                                    <div className="relative">
+                                        <Hash size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                                        <input
+                                            type="text"
+                                            value={joinCode}
+                                            onChange={(e) => setJoinCode(e.target.value)}
+                                            placeholder="e.g. 8a2f-..."
+                                            className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3 pl-10 pr-4 text-gray-900 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all font-mono"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <button type="submit" className="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 rounded-xl font-bold text-white shadow-lg shadow-indigo-500/20 transition-all">
+                                    Join Now
+                                </button>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )
+            }
+        </div >
     );
 };
 

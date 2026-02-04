@@ -4,25 +4,18 @@ const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
     // Check localStorage or system preference on initial load
-    const [theme, setTheme] = useState(() => {
-        if (localStorage.getItem('theme')) {
-            return localStorage.getItem('theme');
-        }
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    });
+    // Always enforce light mode
+    const [theme] = useState('light');
 
+    // Effect removed as we don't need to toggle class anymore or we can just ensure it's removed
     useEffect(() => {
         const root = window.document.documentElement;
-        if (theme === 'dark') {
-            root.classList.add('dark');
-        } else {
-            root.classList.remove('dark');
-        }
-        localStorage.setItem('theme', theme);
-    }, [theme]);
+        root.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+    }, []);
 
     const toggleTheme = () => {
-        setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+        // No-op: Dark mode disabled
     };
 
     return (

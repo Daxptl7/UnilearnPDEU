@@ -1,15 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Plus, Video, MonitorPlay, Moon, Sun } from 'lucide-react';
+import { Plus, Video, MonitorPlay } from 'lucide-react';
 import './Navbar.css';
-import { useTheme } from '../../context/ThemeContext';
 
 const Navbar = ({ user, toggleLogin, viewMode, toggleViewMode }) => {
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [createDropdownOpen, setCreateDropdownOpen] = useState(false);
-
-    const { theme, toggleTheme } = useTheme();
 
     // Ref for closing dropdown on click outside
     const dropdownRef = useRef(null);

@@ -14,6 +14,7 @@ import Courses from './pages/Courses';
 
 import TeacherLanding from './pages/TeacherLanding';
 import TeacherSignup from './pages/TeacherSignup';
+import TeacherDashboard from './pages/TeacherDashboard';
 import TeacherCommunication from './pages/TeacherCommunication';
 import TeacherAssignments from './pages/TeacherAssignments';
 import TeacherAnnouncements from './pages/TeacherAnnouncements';
@@ -75,6 +76,7 @@ function App() {
                             {/* Teacher Routes */}
                             <Route path="/teach" element={<TeacherLanding />} />
                             <Route path="/teacher-signup" element={<TeacherSignup />} />
+                            <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
                             <Route path="/teacher/communication" element={<TeacherCommunication />} />
                             <Route path="/teacher/assignments" element={<TeacherAssignments />} />
                             <Route path="/teacher/announcements" element={<TeacherAnnouncements />} />

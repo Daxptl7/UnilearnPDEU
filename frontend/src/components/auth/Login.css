@@ -29,6 +29,7 @@
 .login-image-section {
     flex: 1;
     position: relative;
+    background-image: url('/campus.jpg');
     background-size: cover;
     background-position: center;
     overflow: hidden;

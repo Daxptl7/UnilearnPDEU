@@ -174,7 +174,7 @@ const ManageCourse = () => {
                                     className="playlist-play-btn"
                                     onClick={() => setManageDropdownOpen(!manageDropdownOpen)}
                                 >
-                                    <Plus size={20} className="text-white dark:text-black" /> Create
+                                    <Plus size={20} className="text-white" /> Create
                                 </button>
 
                                 {manageDropdownOpen && (
@@ -211,12 +211,12 @@ const ManageCourse = () => {
 
                     {/* Right Column - Video List */}
                     <div className="playlist-content">
-                        <div className="sections-list-dark">
+                        <div className="sections-list">
                             {course.parts.map((section, index) => (
-                                <div key={section._id} className="section-item-dark">
+                                <div key={section._id} className="section-item">
                                     <div
                                         onClick={() => toggleSection(section._id)}
-                                        className="section-header-dark"
+                                        className="section-header"
                                     >
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontWeight: '600' }}>
                                             {expandedSections[section._id] ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
@@ -228,14 +228,14 @@ const ManageCourse = () => {
                                     </div>
 
                                     {expandedSections[section._id] && (
-                                        <div className="section-content-dark">
+                                        <div className="section-content">
                                             {section.lectures.map((lecture, lIndex) => (
                                                 <div
                                                     key={lecture._id}
-                                                    className="yt-video-row dark-mode"
+                                                    className="yt-video-row"
                                                     onClick={() => setPreviewLecture(lecture)}
                                                 >
-                                                    <div className="yt-index dark-text">{lIndex + 1}</div>
+                                                    <div className="yt-index">{lIndex + 1}</div>
 
                                                     <div className="yt-thumbnail-container">
                                                         <img
@@ -247,23 +247,23 @@ const ManageCourse = () => {
                                                     </div>
 
                                                     <div className="yt-video-info">
-                                                        <h4 className="yt-video-title dark-text">{lecture.title}</h4>
-                                                        <div className="yt-video-meta dark-meta">
+                                                        <h4 className="yt-video-title">{lecture.title}</h4>
+                                                        <div className="yt-video-meta">
                                                             <span>DxCode • 10K views • 2 days ago</span>
                                                         </div>
                                                     </div>
 
                                                     <div className="yt-actions">
-                                                        <button className="yt-action-btn dark-btn"><Bookmark size={20} /></button>
-                                                        <button className="yt-action-btn dark-btn"><Share2 size={20} /></button>
-                                                        <button className="yt-action-btn dark-btn"><MoreVertical size={20} /></button>
+                                                        <button className="yt-action-btn"><Bookmark size={20} /></button>
+                                                        <button className="yt-action-btn"><Share2 size={20} /></button>
+                                                        <button className="yt-action-btn"><MoreVertical size={20} /></button>
                                                     </div>
                                                 </div>
                                             ))}
 
                                             <button
                                                 onClick={(e) => { e.stopPropagation(); openLectureModal(section._id); }}
-                                                className="add-video-btn-dark"
+                                                className="add-video-btn"
                                             >
                                                 <Plus size={20} /> Add Video Lecture
                                             </button>
@@ -354,21 +354,21 @@ const ManageCourse = () => {
                 {/* Go Live Modal */}
                 {showGoLiveModal && (
                     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-[1000]">
-                        <div className="bg-white dark:bg-[#1e1e2e] p-8 rounded-2xl w-[450px] border border-gray-200 dark:border-white/10 shadow-2xl transition-colors duration-200">
+                        <div className="bg-white p-8 rounded-2xl w-[450px] border border-gray-200 shadow-2xl transition-colors duration-200">
                             <div className="flex items-center gap-4 mb-6">
-                                <div className="w-12 h-12 rounded-xl bg-red-50 dark:bg-red-500/20 flex items-center justify-center">
+                                <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center">
                                     <Video size={24} className="text-red-500" />
                                 </div>
                                 <div>
-                                    <h3 className="m-0 text-gray-900 dark:text-white text-2xl font-bold mb-1">Go Live</h3>
-                                    <p className="m-0 text-gray-500 dark:text-gray-400 text-sm">Start a live session for your students</p>
+                                    <h3 className="m-0 text-gray-900 text-2xl font-bold mb-1">Go Live</h3>
+                                    <p className="m-0 text-gray-500 text-sm">Start a live session for your students</p>
                                 </div>
                             </div>
 
-                            <div className="bg-gray-100 dark:bg-[#0f0f1a] p-4 rounded-xl border border-gray-200 dark:border-white/5 mb-6">
-                                <label className="block text-gray-600 dark:text-gray-400 text-xs font-semibold mb-2 tracking-wide">MEETING CODE</label>
+                            <div className="bg-gray-100 p-4 rounded-xl border border-gray-200 mb-6">
+                                <label className="block text-gray-600 text-xs font-semibold mb-2 tracking-wide">MEETING CODE</label>
                                 <div className="flex gap-2 items-center">
-                                    <code className="flex-1 bg-transparent text-indigo-600 dark:text-indigo-400 text-lg font-mono font-bold">
+                                    <code className="flex-1 bg-transparent text-indigo-600 text-lg font-mono font-bold">
                                         {meetingCode}
                                     </code>
                                     <button
@@ -382,7 +382,7 @@ const ManageCourse = () => {
                                             }
                                         }}
                                         id="copy-live-code-btn"
-                                        className="bg-white dark:bg-white/10 border border-gray-300 dark:border-none text-gray-700 dark:text-white p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/20 transition-all w-8 h-8 flex items-center justify-center"
+                                        className="bg-white border border-gray-300 text-gray-700 p-2 rounded-lg hover:bg-gray-50 transition-all w-8 h-8 flex items-center justify-center"
                                         title="Copy Code"
                                     >
                                         <Copy size={16} />
@@ -390,14 +390,14 @@ const ManageCourse = () => {
                                 </div>
                             </div>
 
-                            <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-6">
+                            <p className="text-gray-500 text-sm leading-relaxed mb-6">
                                 Share this code with your students via announcements or chat. They can join the live session using this code.
                             </p>
 
                             <div className="flex gap-4">
                                 <button
                                     onClick={() => setShowGoLiveModal(false)}
-                                    className="flex-1 py-3 px-4 border border-gray-300 dark:border-white/10 bg-white dark:bg-transparent text-gray-700 dark:text-white rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                                    className="flex-1 py-3 px-4 border border-gray-300 bg-white text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors"
                                 >
                                     Cancel
                                 </button>
@@ -421,7 +421,7 @@ const ManageCourse = () => {
                                             }, 2000);
                                         }
                                     }}
-                                    className="flex-1 py-3 px-4 bg-indigo-600 dark:bg-gradient-to-r dark:from-pink-500 dark:to-violet-500 text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/30 dark:shadow-pink-500/30 hover:opacity-90 transition-opacity border-none"
+                                    className="flex-1 py-3 px-4 bg-indigo-600 text-white rounded-xl font-semibold shadow-lg shadow-indigo-500/30 hover:opacity-90 transition-opacity border-none"
                                 >
                                     Start Meeting
                                 </button>

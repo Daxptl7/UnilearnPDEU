@@ -16,24 +16,6 @@
     --icon-btn-hover: rgba(0, 0, 0, 0.1);
 }
 
-.dark {
-    --bg-primary: #0f0f0f;
-    --bg-card: #18181b;
-    --bg-hover: #27272a;
-    --text-primary: #ffffff;
-    --text-secondary: #a1a1aa;
-    --border-color: #27272a;
-    --accent-color: #6366f1;
-    --accent-hover: #818cf8;
-
-    /* Playlist Specifics */
-    --playlist-gradient: linear-gradient(180deg, rgba(80, 80, 80, 0.2) 0%, rgba(15, 15, 15, 1) 100%);
-    --playlist-bg: #0f0f0f;
-    --yt-row-hover: #272727;
-    --icon-btn-bg: rgba(255, 255, 255, 0.1);
-    --icon-btn-hover: rgba(255, 255, 255, 0.2);
-}
-
 .teacher-comm-container {
     display: flex;
     min-height: 100vh;
@@ -768,17 +750,17 @@
     /* Theme Background */
 }
 
-.sections-list-dark {
+.sections-list {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-.section-item-dark {
+.section-item {
     background-color: transparent;
 }
 
-.section-header-dark {
+.section-header {
     color: var(--text-primary);
     /* Theme Text */
     padding: 12px 0;
@@ -789,13 +771,13 @@
     border-bottom: 1px solid var(--border-color);
 }
 
-.section-content-dark {
+.section-content {
     display: flex;
     flex-direction: column;
 }
 
 /* Update YT Video Row for Theme Mode */
-.yt-video-row.dark-mode {
+.yt-video-row {
     border-radius: 12px;
     padding: 12px;
     display: flex;
@@ -805,7 +787,7 @@
     cursor: pointer;
 }
 
-.yt-video-row.dark-mode:hover {
+.yt-video-row:hover {
     background-color: var(--yt-row-hover);
     /* Theme Hover */
 }
@@ -818,7 +800,7 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.yt-index.dark-text {
+.yt-index {
     color: var(--text-secondary);
     font-size: 0.9rem;
     font-weight: 500;
@@ -826,7 +808,7 @@
     text-align: center;
 }
 
-.yt-video-title.dark-text {
+.yt-video-title {
     color: var(--text-primary);
     /* Theme Text */
     font-size: 1rem;
@@ -834,24 +816,24 @@
     margin: 0;
 }
 
-.yt-video-meta.dark-meta {
+.yt-video-meta {
     color: var(--text-secondary);
     font-size: 0.85rem;
 }
 
-.yt-action-btn.dark-btn {
+.yt-action-btn {
     color: var(--text-primary);
     background: transparent;
     border: none;
     padding: 8px;
 }
 
-.yt-action-btn.dark-btn:hover {
+.yt-action-btn:hover {
     background-color: var(--icon-btn-bg);
     border-radius: 50%;
 }
 
-.add-video-btn-dark {
+.add-video-btn {
     margin-top: 10px;
     width: 100%;
     padding: 10px;
@@ -868,7 +850,7 @@
     transition: all 0.2s;
 }
 
-.add-video-btn-dark:hover {
+.add-video-btn:hover {
     border-color: var(--accent-color);
     color: var(--accent-color);
     background-color: var(--bg-hover);

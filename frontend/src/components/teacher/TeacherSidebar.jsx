@@ -22,7 +22,7 @@ const TeacherSidebar = () => {
             <nav className="comm-nav">
                 <Link to="/teacher/courses" className={`comm-nav-item ${isActive('/teacher/courses') ? 'active' : ''}`}>
                     <div className="comm-nav-icon"><BookOpen size={24} /></div>
-                    <span className="nav-tooltip">Courses</span>
+                    <span className="nav-tooltip">Dashboard</span>
                 </Link>
                 <Link to="/teacher/communication" className={`comm-nav-item ${isActive('/teacher/communication') || isActive('/teacher/assignments') ? 'active' : ''}`}>
                     <div className="comm-nav-icon"><MessageCircle size={24} /></div>

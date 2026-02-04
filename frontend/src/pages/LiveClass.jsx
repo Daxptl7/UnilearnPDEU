@@ -286,13 +286,13 @@ const LiveClass = () => {
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex h-full w-full bg-gray-50 dark:bg-[#0f0f1a] text-gray-900 dark:text-gray-100 overflow-hidden font-sans transition-colors duration-300">
+        <div className="fixed inset-0 z-50 flex h-full w-full bg-gray-50 text-gray-900 overflow-hidden font-sans transition-colors duration-300">
 
-            {/* Background Gradient (Subtle Light) - Adjusted for Dark */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-40 dark:opacity-20">
-                <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-100 dark:bg-blue-900 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[128px] animate-blob" />
-                <div className="absolute top-0 right-1/4 w-96 h-96 bg-purple-100 dark:bg-purple-900 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[128px] animate-blob animation-delay-2000" />
-                <div className="absolute -bottom-32 left-1/3 w-96 h-96 bg-pink-100 dark:bg-pink-900 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[128px] animate-blob animation-delay-4000" />
+            {/* Background Gradient (Subtle Light) */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-40">
+                <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-[128px] animate-blob" />
+                <div className="absolute top-0 right-1/4 w-96 h-96 bg-purple-100 rounded-full mix-blend-multiply filter blur-[128px] animate-blob animation-delay-2000" />
+                <div className="absolute -bottom-32 left-1/3 w-96 h-96 bg-pink-100 rounded-full mix-blend-multiply filter blur-[128px] animate-blob animation-delay-4000" />
             </div>
 
             {/* Main Content */}
@@ -300,44 +300,44 @@ const LiveClass = () => {
 
                 {/* Header (Floating & Light) */}
                 <div className="h-24 px-8 flex items-center justify-between z-20">
-                    <div className="glass-panel-light dark:bg-white/5 dark:border-white/10 px-6 py-3 rounded-2xl flex items-center gap-5 shadow-lg shadow-gray-200/50 dark:shadow-black/20 border border-white/60 bg-white/70 backdrop-blur-md group hover:border-gray-200 dark:hover:border-white/20 transition-all duration-300">
+                    <div className="glass-panel-light px-6 py-3 rounded-2xl flex items-center gap-5 shadow-lg shadow-gray-200/50 border border-white/60 bg-white/70 backdrop-blur-md group hover:border-gray-200 transition-all duration-300">
                         <div className="relative">
                             <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform duration-300">
                                 <Video size={22} className="text-white" />
                             </div>
                             <span className="absolute -top-1 -right-1 flex h-4 w-4">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500 border-2 border-white dark:border-gray-900"></span>
+                                <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500 border-2 border-white"></span>
                             </span>
                         </div>
                         <div>
-                            <h1 className="text-xl font-bold text-gray-800 dark:text-white tracking-tight">Advanced Web Development</h1>
-                            <div className="flex items-center gap-3 text-xs font-medium text-gray-500 dark:text-gray-400">
-                                <span className="px-2 py-0.5 rounded bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-red-100 dark:border-red-500/20 tracking-wider">LIVE</span>
+                            <h1 className="text-xl font-bold text-gray-800 tracking-tight">Advanced Web Development</h1>
+                            <div className="flex items-center gap-3 text-xs font-medium text-gray-500">
+                                <span className="px-2 py-0.5 rounded bg-red-50 text-red-600 border border-red-100 tracking-wider">LIVE</span>
                                 <span>{new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' })}</span>
                             </div>
                         </div>
                     </div>
 
                     <div className="flex items-center gap-4">
-                        <div className="glass-panel-light dark:bg-white/5 dark:border-white/10 px-5 py-2.5 rounded-xl flex items-center gap-4 text-gray-600 dark:text-gray-300 bg-white/70 backdrop-blur-md border border-white/60 shadow-sm">
+                        <div className="glass-panel-light px-5 py-2.5 rounded-xl flex items-center gap-4 text-gray-600 bg-white/70 backdrop-blur-md border border-white/60 shadow-sm">
                             <div className="flex items-center gap-2">
-                                <Users size={18} className="text-indigo-500 dark:text-indigo-400" />
-                                <span className="text-sm font-bold text-gray-800 dark:text-white">{videos.length + 1}</span>
+                                <Users size={18} className="text-indigo-500" />
+                                <span className="text-sm font-bold text-gray-800">{videos.length + 1}</span>
                             </div>
 
                             {/* Copy Code Button Implementation */}
                             <button
                                 onClick={handleCopyCode}
-                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors border border-transparent"
+                                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-900 transition-colors border border-transparent"
                                 title="Copy Meeting Code"
                             >
-                                {copied ? <Check size={16} className="text-green-600 dark:text-green-400" /> : <Copy size={16} />}
+                                {copied ? <Check size={16} className="text-green-600" /> : <Copy size={16} />}
                                 <span className="text-xs font-mono">{roomId}</span>
                             </button>
 
-                            <span className="w-px h-4 bg-gray-300 dark:bg-white/20" />
-                            <span className="text-sm font-mono tracking-wider text-gray-500 dark:text-gray-400">
+                            <span className="w-px h-4 bg-gray-300" />
+                            <span className="text-sm font-mono tracking-wider text-gray-500">
                                 {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </span>
                         </div>
@@ -345,7 +345,7 @@ const LiveClass = () => {
                         {!showChat && (
                             <button
                                 onClick={() => setShowChat(true)}
-                                className="p-3.5 bg-white dark:bg-white/10 hover:bg-gray-50 dark:hover:bg-white/20 text-indigo-600 dark:text-indigo-400 rounded-xl shadow-lg shadow-gray-200/50 dark:shadow-black/20 transition-all duration-300 hover:scale-105 active:scale-95 border border-indigo-100 dark:border-transparent"
+                                className="p-3.5 bg-white hover:bg-gray-50 text-indigo-600 rounded-xl shadow-lg shadow-gray-200/50 transition-all duration-300 hover:scale-105 active:scale-95 border border-indigo-100"
                             >
                                 <MessageSquare size={20} className="fill-current" />
                             </button>
@@ -358,13 +358,13 @@ const LiveClass = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 h-full content-center max-w-[1600px] mx-auto">
 
                         {/* Local User */}
-                        <div className="relative group rounded-[2rem] overflow-hidden aspect-video shadow-xl bg-white dark:bg-[#1e1e2e] border border-white dark:border-white/5 ring-1 ring-gray-100 dark:ring-white/5 transition-all duration-500 hover:scale-[1.02] hover:shadow-indigo-500/10 hover:border-indigo-100 dark:hover:border-indigo-500/30">
+                        <div className="relative group rounded-[2rem] overflow-hidden aspect-video shadow-xl bg-white border border-white ring-1 ring-gray-100 transition-all duration-500 hover:scale-[1.02] hover:shadow-indigo-500/10 hover:border-indigo-100">
                             {stream ? (
                                 <VideoPlayer stream={stream} isMuted={true} />
                             ) : (
-                                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-50 dark:bg-[#151520] text-gray-400 dark:text-gray-500">
+                                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-50 text-gray-400">
                                     <div className="relative w-16 h-16 mb-4">
-                                        <div className="absolute inset-0 border-4 border-indigo-200 dark:border-indigo-900/30 rounded-full"></div>
+                                        <div className="absolute inset-0 border-4 border-indigo-200 rounded-full"></div>
                                         <div className="absolute inset-0 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
                                     </div>
                                     <span className="text-sm font-medium tracking-wide">INITIALIZING FEED</span>
@@ -372,15 +372,15 @@ const LiveClass = () => {
                             )}
 
                             <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between">
-                                <div className="bg-white/90 dark:bg-black/60 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-3 shadow-sm border border-white/50 dark:border-white/10">
+                                <div className="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-3 shadow-sm border border-white/50">
                                     <div className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]" />
                                     {/* Display Role Label based on current user */}
-                                    <span className="text-xs font-bold text-gray-800 dark:text-gray-200 tracking-wide">
+                                    <span className="text-xs font-bold text-gray-800 tracking-wide">
                                         {(user?.role === 'teacher' || user?.role === 'admin') ? "INSTRUCTOR (YOU)" : "STUDENT (YOU)"}
                                     </span>
                                 </div>
                                 {isMuted && (
-                                    <div className="w-8 h-8 rounded-full bg-red-100 dark:bg-red-500/20 text-red-500 flex items-center justify-center shadow-sm animate-pulse">
+                                    <div className="w-8 h-8 rounded-full bg-red-100 text-red-500 flex items-center justify-center shadow-sm animate-pulse">
                                         <MicOff size={14} />
                                     </div>
                                 )}
@@ -395,11 +395,11 @@ const LiveClass = () => {
                             const isInstructor = role === 'teacher' || role === 'admin';
 
                             return (
-                                <div key={video.socketId} className="relative group rounded-[2rem] overflow-hidden aspect-video shadow-xl bg-white dark:bg-[#1e1e2e] border border-white dark:border-white/5 ring-1 ring-gray-100 dark:ring-white/5 transition-all duration-500 hover:scale-[1.02] hover:shadow-purple-500/10 hover:border-purple-100 dark:hover:border-purple-500/30">
+                                <div key={video.socketId} className="relative group rounded-[2rem] overflow-hidden aspect-video shadow-xl bg-white border border-white ring-1 ring-gray-100 transition-all duration-500 hover:scale-[1.02] hover:shadow-purple-500/10 hover:border-purple-100">
                                     <VideoPlayer stream={video.stream} />
                                     <div className="absolute bottom-5 left-5">
-                                        <div className="bg-white/90 dark:bg-black/60 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-2 shadow-sm border border-white/50 dark:border-white/10">
-                                            <span className={`text-xs font-bold tracking-wide ${isInstructor ? "text-indigo-600 dark:text-indigo-400" : "text-gray-800 dark:text-gray-200"}`}>
+                                        <div className="bg-white/90 backdrop-blur-md px-4 py-2 rounded-full flex items-center gap-2 shadow-sm border border-white/50">
+                                            <span className={`text-xs font-bold tracking-wide ${isInstructor ? "text-indigo-600" : "text-gray-800"}`}>
                                                 {isInstructor ? "INSTRUCTOR" : "STUDENT"} - {name}
                                             </span>
                                         </div>
@@ -412,13 +412,13 @@ const LiveClass = () => {
 
                 {/* Floating Control Dock */}
                 <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30">
-                    <div className="bg-white/80 dark:bg-white/10 backdrop-blur-xl p-2 rounded-3xl shadow-2xl shadow-gray-200/50 dark:shadow-black/30 flex items-center gap-2 border border-white/50 dark:border-white/10 scale-100 hover:scale-[1.01] transition-transform duration-300">
+                    <div className="bg-white/80 backdrop-blur-xl p-2 rounded-3xl shadow-2xl shadow-gray-200/50 flex items-center gap-2 border border-white/50 scale-100 hover:scale-[1.01] transition-transform duration-300">
                         <ControlBtn
                             onClick={toggleMute}
                             active={!isMuted} // Corrected logic: Active = Not Muted
                             onIcon={<Mic size={20} />}
                             offIcon={<MicOff size={20} />}
-                            activeClass="bg-gray-100 dark:bg-white/20 hover:bg-gray-200 dark:hover:bg-white/30 text-gray-800 dark:text-white shadow-sm"
+                            activeClass="bg-gray-100 hover:bg-gray-200 text-gray-800 shadow-sm"
                             offClass="bg-red-500 text-white hover:bg-red-600 shadow-lg shadow-red-500/30 ring-2 ring-red-500/20"
                         />
                         <ControlBtn
@@ -426,21 +426,21 @@ const LiveClass = () => {
                             active={!isVideoOff} // Corrected logic: Active = Not Video Off
                             onIcon={<Video size={20} />}
                             offIcon={<VideoOff size={20} />}
-                            activeClass="bg-gray-100 dark:bg-white/20 hover:bg-gray-200 dark:hover:bg-white/30 text-gray-800 dark:text-white shadow-sm"
+                            activeClass="bg-gray-100 hover:bg-gray-200 text-gray-800 shadow-sm"
                             offClass="bg-red-500 text-white hover:bg-red-600 shadow-lg shadow-red-500/30 ring-2 ring-red-500/20"
                         />
 
-                        <div className="w-px h-10 bg-gray-200 dark:bg-white/20 mx-2" />
+                        <div className="w-px h-10 bg-gray-200 mx-2" />
 
                         <ControlBtn onClick={() => { }} icon={<Share size={20} />} tooltip="Share Screen" />
                         <ControlBtn onClick={() => { }} icon={<Settings size={20} />} tooltip="Settings" />
                         <ControlBtn onClick={() => { }} icon={<Maximize2 size={20} />} tooltip="Fullscreen" />
 
-                        <div className="w-px h-10 bg-gray-200 dark:bg-white/20 mx-2" />
+                        <div className="w-px h-10 bg-gray-200 mx-2" />
 
                         <button
                             onClick={() => navigate(-1)}
-                            className="h-14 px-8 rounded-2xl bg-white dark:bg-white/5 border-2 border-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 text-red-600 dark:text-red-400 flex items-center gap-2.5 transition-all duration-300 shadow-sm hover:scale-105 active:scale-95 group"
+                            className="h-14 px-8 rounded-2xl bg-white border-2 border-red-500 hover:bg-red-50 text-red-600 flex items-center gap-2.5 transition-all duration-300 shadow-sm hover:scale-105 active:scale-95 group"
                         >
                             <PhoneOff size={20} className="group-hover:animate-pulse" />
                             <span className="font-bold text-sm tracking-wide">END CALL</span>
@@ -450,11 +450,11 @@ const LiveClass = () => {
             </div>
 
             {/* Premium Chat Sidebar (Light) */}
-            <div className={`fixed right-0 top-0 h-full w-[380px] bg-white/95 dark:bg-[#18181b]/95 backdrop-blur-2xl border-l border-gray-100 dark:border-gray-800 shadow-[-20px_0_100px_rgba(0,0,0,0.05)] transform transition-transform duration-500 ease-[cubic-bezier(0.25,0.8,0.25,1)] z-40 flex flex-col ${showChat ? 'translate-x-0' : 'translate-x-full'}`}>
+            <div className={`fixed right-0 top-0 h-full w-[380px] bg-white/95 backdrop-blur-2xl border-l border-gray-100 shadow-[-20px_0_100px_rgba(0,0,0,0.05)] transform transition-transform duration-500 ease-[cubic-bezier(0.25,0.8,0.25,1)] z-40 flex flex-col ${showChat ? 'translate-x-0' : 'translate-x-full'}`}>
 
-                <div className="h-24 flex items-center justify-between px-8 border-b border-gray-100 dark:border-gray-800 bg-gradient-to-b from-gray-50/50 dark:from-white/5 to-transparent">
+                <div className="h-24 flex items-center justify-between px-8 border-b border-gray-100 bg-gradient-to-b from-gray-50/50 to-transparent">
                     <div>
-                        <h2 className="text-xl font-bold text-gray-800 dark:text-white tracking-tight">Live Chat</h2>
+                        <h2 className="text-xl font-bold text-gray-800 tracking-tight">Live Chat</h2>
                         <div className="flex items-center gap-2 mt-1">
                             <span className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
                             <span className="text-xs font-medium text-gray-400">Online & Active</span>
@@ -462,7 +462,7 @@ const LiveClass = () => {
                     </div>
                     <button
                         onClick={() => setShowChat(false)}
-                        className="p-2.5 hover:bg-gray-100 dark:hover:bg-white/10 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-all duration-200"
+                        className="p-2.5 hover:bg-gray-100 rounded-xl text-gray-400 hover:text-gray-600 transition-all duration-200"
                     >
                         <MoreVertical size={20} />
                     </button>
@@ -471,7 +471,7 @@ const LiveClass = () => {
                 <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-6 custom-scrollbar-light">
                     {messages.length === 0 ? (
                         <div className="flex flex-col items-center justify-center h-full text-gray-400 opacity-80">
-                            <div className="w-20 h-20 bg-gray-50 dark:bg-white/5 rounded-full flex items-center justify-center mb-6 border border-gray-100 dark:border-white/5">
+                            <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-6 border border-gray-100">
                                 <MessageSquare size={32} className="stroke-[1.5]" />
                             </div>
                             <p className="text-sm font-medium">No messages yet</p>
@@ -482,15 +482,15 @@ const LiveClass = () => {
                             <div key={idx} className={`group flex flex-col ${msg.isSelf ? 'items-end' : 'items-start'} animate-in slide-in-from-bottom-2 duration-300`}>
                                 <div className="flex items-end gap-3 max-w-[85%]">
                                     {!msg.isSelf && (
-                                        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-violet-100 to-fuchsia-100 dark:from-violet-900 dark:to-fuchsia-900 flex-shrink-0 flex items-center justify-center text-xs font-bold text-violet-600 dark:text-violet-300 shadow-sm ring-2 ring-white dark:ring-gray-800">
+                                        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-violet-100 to-fuchsia-100 flex-shrink-0 flex items-center justify-center text-xs font-bold text-violet-600 shadow-sm ring-2 ring-white">
                                             {msg.user[0]}
                                         </div>
                                     )}
                                     <div>
                                         {!msg.isSelf && <p className="text-[10px] text-gray-400 mb-1 ml-1">{msg.user}</p>}
                                         <div className={`px-5 py-3 rounded-2xl text-sm leading-relaxed shadow-sm ${msg.isSelf
-                                            ? 'bg-gradient-to-br from-indigo-500 to-indigo-600 text-white rounded-br-sm shadow-indigo-200 dark:shadow-none'
-                                            : 'bg-white dark:bg-white/10 text-gray-600 dark:text-gray-200 rounded-bl-sm border border-gray-100 dark:border-white/5 shadow-gray-200/50 dark:shadow-none'
+                                            ? 'bg-gradient-to-br from-indigo-500 to-indigo-600 text-white rounded-br-sm shadow-indigo-200'
+                                            : 'bg-white text-gray-600 rounded-bl-sm border border-gray-100 shadow-gray-200/50'
                                             }`}>
                                             {msg.text}
                                         </div>
@@ -504,19 +504,19 @@ const LiveClass = () => {
                     )}
                 </div>
 
-                <div className="p-6 border-t border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-[#18181b]">
+                <div className="p-6 border-t border-gray-100 bg-gray-50/50">
                     <form onSubmit={sendMessage} className="relative group">
                         <input
                             type="text"
                             value={newMessage}
                             onChange={(e) => setNewMessage(e.target.value)}
                             placeholder="Type a message..."
-                            className="w-full bg-white dark:bg-white/5 text-gray-800 dark:text-gray-100 text-sm rounded-2xl py-4 pl-5 pr-14 border border-gray-200 dark:border-white/10 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 dark:focus:ring-indigo-500/20 focus:outline-none transition-all placeholder:text-gray-400 shadow-sm"
+                            className="w-full bg-white text-gray-800 text-sm rounded-2xl py-4 pl-5 pr-14 border border-gray-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 focus:outline-none transition-all placeholder:text-gray-400 shadow-sm"
                         />
                         <button
                             type="submit"
                             disabled={!newMessage.trim()}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 p-2.5 bg-indigo-600 text-white rounded-xl opacity-100 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95 transition-all shadow-md shadow-indigo-200 dark:shadow-indigo-500/20"
+                            className="absolute right-2 top-1/2 -translate-y-1/2 p-2.5 bg-indigo-600 text-white rounded-xl opacity-100 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95 transition-all shadow-md shadow-indigo-200"
                         >
                             <Send size={18} className="fill-current" />
                         </button>
