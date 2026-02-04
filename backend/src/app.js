@@ -8,6 +8,9 @@ import courseRoutes from './routes/course.routes.js';
 import studentRoutes from './routes/student.routes.js';
 import teacherRoutes from './routes/teacher.routes.js';
 import videoRoutes from './routes/video.routes.js';
+import announcementRoutes from './routes/announcement.routes.js';
+import assignmentRoutes from './routes/assignment.routes.js';
+import questionRoutes from './routes/question.routes.js';
 
 const app = express();
 
@@ -26,6 +29,14 @@ app.use('/api/courses', courseRoutes);
 app.use('/api/student', studentRoutes);
 app.use('/api/teacher', teacherRoutes);
 app.use('/api/videos', videoRoutes);
+app.use('/api/announcements', announcementRoutes);
+app.use('/api/assignments', assignmentRoutes);
+app.use('/api/questions', questionRoutes);
+
+// Static Uploads
+import path from 'path';
+const __dirname = path.resolve();
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Health check
 app.get('/health', (req, res) => {

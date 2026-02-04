@@ -201,6 +201,11 @@ export const updateDetails = async (req, res) => {
     // Remove undefined fields
     Object.keys(fieldsToUpdate).forEach(key => fieldsToUpdate[key] === undefined && delete fieldsToUpdate[key]);
 
+    // Handle Image Upload
+    if (req.file) {
+        fieldsToUpdate.image = `/uploads/avatars/${req.file.filename}`;
+    }
+
     const user = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
       new: true,
       runValidators: true

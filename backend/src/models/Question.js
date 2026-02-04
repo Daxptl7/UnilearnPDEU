@@ -6,7 +6,7 @@ const answerSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
-  answer: {
+  content: { // Changed from 'answer' to 'content' for clarity
     type: String,
     required: true
   },
@@ -17,7 +17,7 @@ const answerSchema = new mongoose.Schema({
 });
 
 const questionSchema = new mongoose.Schema({
-  user: {
+  student: { // Renamed from user to student for clarity
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
@@ -27,10 +27,22 @@ const questionSchema = new mongoose.Schema({
     ref: 'Course',
     required: true
   },
-  lectureId: String,
-  question: {
+  title: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  description: { // Renamed from 'question' to 'description'
     type: String,
     required: true
+  },
+  imageUrl: {
+    type: String // Optional image URL
+  },
+  status: {
+    type: String,
+    enum: ['open', 'completed'],
+    default: 'open'
   },
   answers: [answerSchema],
   createdAt: {
