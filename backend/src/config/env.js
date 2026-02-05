@@ -43,7 +43,20 @@ export const config = {
     
     */
   },
+
   //JWT : JWT is a JSON Web Token that is used to authenticate the user.
+  
+  /*
+
+    JWT (✅ modern solution)
+
+    -> User logs in.
+    -> Server gives a token.
+    -> Client sends token with every request.
+    -> Server verifies, doesn’t store session.
+
+
+  */
   jwt: {
     secret: process.env.JWT_SECRET || 'your-secret-key',
     expire: process.env.JWT_EXPIRE || '7d'
